@@ -1,10 +1,11 @@
-import { Stack } from "expo-router";
+// TODO - this is possibly to remove
+// import { Stack } from "expo-router";
 
-export default function RootLayout() {
-  return (
-    <Stack>
-      <Stack.Screen name="index" options={{ title: 'List' }} />
-      <Stack.Screen name="map" options={{ title: 'Map' }} />
-    </Stack>
-  );
-}
+// export default function RootLayout() {
+//   return (
+//     <Stack>
+//       <Stack.Screen name="index" options={{ title: 'List' }} />
+//       <Stack.Screen name="map" options={{ title: 'Map' }} />
+//     </Stack>
+//   );
+// }

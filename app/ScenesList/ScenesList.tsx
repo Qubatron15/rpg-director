@@ -1,11 +1,14 @@
 import React, { FC } from 'react';
+import { Text } from 'react-native-paper';
 
 interface ScenesListProps {}
 
 const ScenesList: FC<ScenesListProps> = () => (
-  <div>
+  <Text>
     ScenesList Component updated
-  </div>
+  </Text>
 );
 
 export default ScenesList;
+
+export const RenderScenesList = () => ScenesList({});
