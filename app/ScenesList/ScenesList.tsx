@@ -4,25 +4,45 @@ import { IconButton, List, MD3Colors, Text } from 'react-native-paper';
 
 interface ScenesListProps { }
 
+interface SceneData {
+  id: number;
+  name: string;
+}
+
 const ScenesList: FC<ScenesListProps> = () => {
-  const [expanded, setExpanded] = React.useState(true);
+  // const [expanded, setExpanded] = React.useState(true);
 
-  const handlePress = () => setExpanded(!expanded);
+  // const handlePress = () => setExpanded(!expanded);
 
-  const scenesList = [
-    {
-      id: 1,
-      name: 'Attic'
-    },
-    {
-      id: 2,
-      name: 'Polio'
-    },
-    {
-      id: 3,
-      name: 'Titanic'
-    }
-  ]
+  const [scenesList, setScenesList] = React.useState<SceneData[]>([]);
+  // setscenesList(
+  //   [
+  //     {
+  //       id: 1,
+  //       name: 'Attic'
+  //     },
+  //     {
+  //       id: 2,
+  //       name: 'Polio'
+  //     },
+  //     {
+  //       id: 3,
+  //       name: 'Titanic'
+  //     }
+  //   ]
+  // );
+
+  function addScene() {
+    console.log('ADDED');
+    setScenesList((currentScenes: SceneData[]) => {
+      const newScene: SceneData = {
+        id: new Date().getTime(),
+        name: new Date().toISOString(),
+      }
+
+      return [...currentScenes, newScene];
+    });
+  }
 
   return (
     <View style={styles.view}>
@@ -36,21 +56,21 @@ const ScenesList: FC<ScenesListProps> = () => {
         }
       </List.Accordion>
 
-      <List.Accordion
+      {/* <List.Accordion
         title="Controlled Accordion"
         left={props => <List.Icon {...props} icon="folder" />}
         expanded={expanded}
         onPress={handlePress}>
         <List.Item title="First item" />
         <List.Item title="Second item" />
-      </List.Accordion>
+      </List.Accordion> */}
 
       <IconButton
         style={styles.addButton}
         icon="camera"
         iconColor={MD3Colors.primary0}
         size={40}
-        onPress={() => console.log('Pressed')}
+        onPress={addScene}
         mode="contained"
       />
     </View>
