@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
-import { List, Text } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { IconButton, List, MD3Colors, Text } from 'react-native-paper';
 
 interface ScenesListProps { }
 
@@ -10,7 +10,7 @@ const ScenesList: FC<ScenesListProps> = () => {
   const handlePress = () => setExpanded(!expanded);
 
   return (
-    <View>
+    <View style={styles.view}>
       <List.Accordion
         title="Uncontrolled Accordion - working?"
         left={props => <List.Icon {...props} icon="folder" />}>
@@ -26,9 +26,30 @@ const ScenesList: FC<ScenesListProps> = () => {
         <List.Item title="First item" />
         <List.Item title="Second item" />
       </List.Accordion>
+
+      <IconButton
+        style={styles.addButton}
+        icon="camera"
+        iconColor={MD3Colors.primary0}
+        size={40}
+        onPress={() => console.log('Pressed')}
+        mode="contained"
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  view: {
+    position: 'relative',
+    height: '100%'
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  }
+});
 
 export default ScenesList;
 
