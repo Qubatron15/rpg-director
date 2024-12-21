@@ -9,13 +9,31 @@ const ScenesList: FC<ScenesListProps> = () => {
 
   const handlePress = () => setExpanded(!expanded);
 
+  const scenesList = [
+    {
+      id: 1,
+      name: 'Attic'
+    },
+    {
+      id: 2,
+      name: 'Polio'
+    },
+    {
+      id: 3,
+      name: 'Titanic'
+    }
+  ]
+
   return (
     <View style={styles.view}>
       <List.Accordion
         title="Uncontrolled Accordion - working?"
         left={props => <List.Icon {...props} icon="folder" />}>
-        <List.Item title="First item" />
-        <List.Item title="Second item" />
+        {/* <List.Item title="First item" /> */}
+        {/* <List.Item title="Second item" /> */}
+        {
+          scenesList.map(scene => <List.Item title={scene.name} key={scene.id} />)
+        }
       </List.Accordion>
 
       <List.Accordion
