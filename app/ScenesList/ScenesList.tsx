@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { IconButton, List, MD3Colors, Text } from 'react-native-paper';
+import { IconButton, List, MD3Colors, Modal, Portal, Text } from 'react-native-paper';
 
 interface ScenesListProps { }
 
@@ -10,27 +10,22 @@ interface SceneData {
 }
 
 const ScenesList: FC<ScenesListProps> = () => {
-  // const [expanded, setExpanded] = React.useState(true);
+  const [scenesList, setScenesList] = React.useState<SceneData[]>([
+    {
+      id: 1,
+      name: 'Attic'
+    },
+    {
+      id: 2,
+      name: 'Polio'
+    },
+    {
+      id: 3,
+      name: 'Titanic'
+    }
+  ]);
 
-  // const handlePress = () => setExpanded(!expanded);
-
-  const [scenesList, setScenesList] = React.useState<SceneData[]>([]);
-  // setscenesList(
-  //   [
-  //     {
-  //       id: 1,
-  //       name: 'Attic'
-  //     },
-  //     {
-  //       id: 2,
-  //       name: 'Polio'
-  //     },
-  //     {
-  //       id: 3,
-  //       name: 'Titanic'
-  //     }
-  //   ]
-  // );
+  const [modalVisible, setModalVisible] = React.useState<boolean>(false);
 
   function addScene() {
     console.log('ADDED');
@@ -44,35 +39,37 @@ const ScenesList: FC<ScenesListProps> = () => {
     });
   }
 
+  function toggleModal() {
+    setModalVisible(currentValue => !currentValue);
+  }
+
+  const containerStyle = {backgroundColor: 'white', padding: 20};
+
   return (
     <View style={styles.view}>
       <List.Accordion
         title="Uncontrolled Accordion - working?"
-        left={props => <List.Icon {...props} icon="folder" />}>
-        {/* <List.Item title="First item" /> */}
-        {/* <List.Item title="Second item" /> */}
+        left={props => <List.Icon {...props} icon="folder" />}
+        expanded={true}>
         {
           scenesList.map(scene => <List.Item title={scene.name} key={scene.id} />)
         }
       </List.Accordion>
 
-      {/* <List.Accordion
-        title="Controlled Accordion"
-        left={props => <List.Icon {...props} icon="folder" />}
-        expanded={expanded}
-        onPress={handlePress}>
-        <List.Item title="First item" />
-        <List.Item title="Second item" />
-      </List.Accordion> */}
-
       <IconButton
         style={styles.addButton}
-        icon="camera"
+        icon="plus"
         iconColor={MD3Colors.primary0}
         size={40}
-        onPress={addScene}
+        onPress={toggleModal}
         mode="contained"
       />
+
+      <Portal>
+        <Modal visible={modalVisible} onDismiss={toggleModal} contentContainerStyle={containerStyle}>
+          <Text>Example Modal.  Click outside this area to dismiss.</Text>
+        </Modal>
+      </Portal>
     </View>
   );
 }
@@ -86,6 +83,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
+  },
+  modalContainer: {
+    padding: 20
   }
 });
 

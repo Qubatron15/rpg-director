@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BottomNavigation } from 'react-native-paper';
+import { BottomNavigation, PaperProvider } from 'react-native-paper';
 import { RenderScenesList } from './ScenesList/ScenesList';
 import { RenderScenesMap } from './ScenesMap/ScenesMap';
 
@@ -16,10 +16,12 @@ export default function Index() {
   });
 
   return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-    />
+    <PaperProvider>
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
+    </PaperProvider>
   );
 }
