@@ -7,7 +7,7 @@ export default function Index() {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'sceneList', title: 'List', focusedIcon: 'view-list' },
-    { key: 'sceneMap', title: 'Map', focusedIcon: 'map' },
+    { key: 'add-scene', title: 'Add scene', focusedIcon: 'map' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({

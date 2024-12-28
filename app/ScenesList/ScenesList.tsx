@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { IconButton, List, MD3Colors, Modal, Portal, Text } from 'react-native-paper';
 import AddSceneForm from '../AddSceneForm/AddSceneForm';
+import { Link } from 'expo-router';
 
 interface ScenesListProps { }
 
@@ -57,14 +58,16 @@ const ScenesList: FC<ScenesListProps> = () => {
         }
       </List.Accordion>
 
-      <IconButton
-        style={styles.addButton}
-        icon="plus"
-        iconColor={MD3Colors.primary0}
-        size={40}
-        onPress={toggleModal}
-        mode="contained"
-      />
+      <Link href="/AddSceneForm/AddSceneForm">
+        <IconButton
+          style={styles.addButton}
+          icon="plus"
+          iconColor={MD3Colors.primary0}
+          size={40}
+          // onPress={toggleModal}
+          mode="contained"
+        />
+      </Link>
 
       <Portal>
         <Modal visible={modalVisible} onDismiss={toggleModal} contentContainerStyle={containerStyle}>
