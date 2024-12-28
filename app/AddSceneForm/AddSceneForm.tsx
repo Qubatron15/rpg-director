@@ -5,34 +5,46 @@ import { Button, Text, TextInput } from 'react-native-paper';
 interface AddSceneFormProps { }
 
 const AddSceneForm: FC<AddSceneFormProps> = () => {
-  const [name, setText] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [formValues, setFormValues] = React.useState({ sceneName: '', sceneDescription: '' });
+  const [formDirty, setFormDirty] = React.useState(false);
+
+  function handleChange(fieldName: string, newValue: string) {
+    setFormDirty(true);
+    setFormValues((prev) => ({ ...prev, [fieldName]: newValue }));
+  };
+
+
+  function submit() {
+    console.log(formValues, formDirty);
+  }
 
   return (
     <View>
       <TextInput label="Name"
-        value={name}
-        onChangeText={text => setText(text)}
+        value={formValues.sceneName}
+        onChangeText={text => handleChange('sceneName', text)}
         mode="outlined"
       />
       <TextInput label="Description"
-        value={description}
-        onChangeText={text => setDescription(text)}
+        value={formValues.sceneDescription}
+        onChangeText={text => handleChange('sceneDescription', text)}
         mode="outlined"
         multiline={true}
       />
+
       <View style={styles.buttonsContainer}>
         <Button icon="camera"
-        mode="contained"
-        compact={true}
-        style={styles.button}
-          onPress={() => console.log('Pressed')}>
+          mode="contained"
+          compact={true}
+          style={styles.button}
+          disabled={!formDirty}
+          onPress={submit}>
           Add
         </Button>
         <Button icon="camera"
-        mode="contained"
-        compact={true}
-        style={styles.button}
+          mode="contained"
+          compact={true}
+          style={styles.button}
           onPress={() => console.log('Pressed')}>
           Cancel
         </Button>
@@ -49,7 +61,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '50%',
-    // display: 'flex'
   }
 });
 
