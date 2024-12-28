@@ -4,7 +4,7 @@ export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ title: 'Scenes' }} />
-      <Stack.Screen name="add-scene" options={{ title: 'Add scene' }} />
+      <Stack.Screen name="AddSceneForm/AddSceneForm" options={{ title: 'Add scene' }} />
     </Stack>
   );
 }
