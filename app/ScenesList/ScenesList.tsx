@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { IconButton, List, MD3Colors, Modal, Portal, Text } from 'react-native-paper';
+import AddSceneForm from '../AddSceneForm/AddSceneForm';
 
 interface ScenesListProps { }
 
@@ -52,7 +53,7 @@ const ScenesList: FC<ScenesListProps> = () => {
         left={props => <List.Icon {...props} icon="folder" />}
         expanded={true}>
         {
-          scenesList.map(scene => <List.Item title={scene.name} key={scene.id} />)
+          scenesList.map(scene => <List.Item title={scene.name} key={scene.id} left={() => <List.Icon icon="terrain" />} />)
         }
       </List.Accordion>
 
@@ -67,7 +68,8 @@ const ScenesList: FC<ScenesListProps> = () => {
 
       <Portal>
         <Modal visible={modalVisible} onDismiss={toggleModal} contentContainerStyle={containerStyle}>
-          <Text>Example Modal.  Click outside this area to dismiss.</Text>
+          <AddSceneForm />
+          {/* <Text>hahahah</Text> */}
         </Modal>
       </Portal>
     </View>
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   modalContainer: {
-    padding: 20
+    padding: 20,
   }
 });
 
