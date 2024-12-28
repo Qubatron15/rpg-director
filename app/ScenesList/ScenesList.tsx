@@ -79,7 +79,8 @@ const ScenesList: FC<ScenesListProps> = () => {
 const styles = StyleSheet.create({
   view: {
     position: 'relative',
-    height: '100%'
+    height: '100%',
+    padding: 40
   },
   addButton: {
     position: 'absolute',
