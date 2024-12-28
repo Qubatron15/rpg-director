@@ -58,7 +58,7 @@ const ScenesList: FC<ScenesListProps> = () => {
         }
       </List.Accordion>
 
-      <Link href="/AddSceneForm/AddSceneForm">
+      <Link href="/#/add-scene">
         <IconButton
           style={styles.addButton}
           icon="plus"
