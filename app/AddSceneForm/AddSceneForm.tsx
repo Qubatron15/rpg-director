@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
@@ -32,35 +33,22 @@ const AddSceneForm: FC<AddSceneFormProps> = () => {
         multiline={true}
       />
 
-      <View style={styles.buttonsContainer}>
-        <Button icon="camera"
-          mode="contained"
-          compact={true}
-          style={styles.button}
-          disabled={!formDirty}
-          onPress={submit}>
-          Add
-        </Button>
-        <Button icon="camera"
-          mode="contained"
-          compact={true}
-          style={styles.button}
-          onPress={() => console.log('Pressed')}>
-          Cancel
-        </Button>
-      </View>
+      <Button icon="camera"
+        mode="contained"
+        compact={true}
+        style={styles.button}
+        disabled={!formDirty}
+        onPress={submit}>
+        Add
+      </Button>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginTop: 20
-  },
   button: {
-    width: '50%',
+    margin: '10%',
+    width: '80%',
   }
 });
 
