@@ -2,6 +2,7 @@ import { Link } from 'expo-router';
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
 interface AddSceneFormProps { }
 

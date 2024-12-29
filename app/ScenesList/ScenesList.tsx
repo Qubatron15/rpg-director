@@ -3,29 +3,20 @@ import { View, StyleSheet } from 'react-native';
 import { IconButton, List, MD3Colors, Modal, Portal, Text } from 'react-native-paper';
 import AddSceneForm from '../AddSceneForm/AddSceneForm';
 import { Link } from 'expo-router';
+import { SceneData } from '../store/slices/scenesSlice';
+import { useSelector } from 'react-redux';
 
 interface ScenesListProps { }
 
-interface SceneData {
-  id: number;
-  name: string;
-}
-
 const ScenesList: FC<ScenesListProps> = () => {
-  const [scenesList, setScenesList] = React.useState<SceneData[]>([
-    {
-      id: 1,
-      name: 'Attic'
-    },
-    {
-      id: 2,
-      name: 'Polio'
-    },
-    {
-      id: 3,
-      name: 'Titanic'
-    }
-  ]);
+  const scenesList: SceneData[] = useSelector((state: any) => state.scenesList);
+
+  // const [scenesList, setScenesList] = React.useState<SceneData[]>([
+  //   {
+  //     id: 3,
+  //     name: 'Titanic'
+  //   }
+  // ]);
 
   return (
     <View>
