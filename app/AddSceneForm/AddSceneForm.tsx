@@ -20,7 +20,7 @@ const AddSceneForm: FC<AddSceneFormProps> = () => {
   }
 
   return (
-    <View>
+    <View style={styles.formContainer}>
       <TextInput label="Name"
         value={formValues.sceneName}
         onChangeText={text => handleChange('sceneName', text)}
@@ -46,6 +46,9 @@ const AddSceneForm: FC<AddSceneFormProps> = () => {
 };
 
 const styles = StyleSheet.create({
+  formContainer: {
+    padding: 20
+  },
   button: {
     margin: '10%',
     width: '80%',
