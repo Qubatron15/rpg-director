@@ -4,10 +4,11 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { BottomNavigation, IconButton, MD3Colors } from 'react-native-paper';
 import { RenderScenesList } from './ScenesList/ScenesList';
 import { RenderScenesMap } from './ScenesMap/ScenesMap';
+import { BaseRoute } from 'react-native-paper/lib/typescript/components/BottomNavigation/BottomNavigation';
 
 export interface AppComponent {
     index: number;
-    routes: any; // todo try to do type here
+    routes: BaseRoute[];
 }
 
 class App extends Component<any, AppComponent> {
@@ -26,12 +27,6 @@ class App extends Component<any, AppComponent> {
                 { key: 'sceneMap', title: 'Map', focusedIcon: 'map' },
             ]
         };
-
-        const [index, setIndex] = React.useState(0);
-        const [routes] = React.useState([
-            { key: 'scenesList', title: 'List', focusedIcon: 'view-list' },
-            { key: 'sceneMap', title: 'Map', focusedIcon: 'map' },
-        ]);
     }
 
     private setIndex(newIndex: number) {
