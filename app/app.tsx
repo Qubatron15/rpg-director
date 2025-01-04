@@ -1,8 +1,8 @@
 import { Link } from 'expo-router';
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { BottomNavigation, IconButton, MD3Colors } from 'react-native-paper';
-import { RenderScenesList } from './ScenesList/ScenesList';
+import ScenesList from './ScenesList/ScenesList';
 import { RenderScenesMap } from './ScenesMap/ScenesMap';
 import { BaseRoute } from 'react-native-paper/lib/typescript/components/BottomNavigation/BottomNavigation';
 
@@ -13,7 +13,7 @@ export interface AppComponent {
 
 class App extends Component<any, AppComponent> {
     private renderScene = BottomNavigation.SceneMap({
-        scenesList: RenderScenesList,
+        scenesList: () => <ScenesList />,
         sceneMap: RenderScenesMap,
     });
 
@@ -39,7 +39,7 @@ class App extends Component<any, AppComponent> {
             <View style={styles.view}>
                 <BottomNavigation
                     navigationState={{ index: this.state.index, routes: this.state.routes }}
-                    onIndexChange={this.setIndex}
+                    onIndexChange={this.setIndex.bind(this)}
                     renderScene={this.renderScene}
                 />
                 <Link href="/AddSceneForm/AddSceneForm"
