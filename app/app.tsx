@@ -6,14 +6,14 @@ import ScenesList from './ScenesList/ScenesList';
 import ScenesMap from './ScenesMap/ScenesMap';
 import { BaseRoute } from 'react-native-paper/lib/typescript/components/BottomNavigation/BottomNavigation';
 
-interface AppComponentProps {}
+interface AppProps {}
 
-interface AppComponent {
+interface AppState {
     index: number;
     routes: BaseRoute[];
 }
 
-class App extends Component<AppComponentProps, AppComponent> {
+class App extends Component<AppProps, AppState> {
     private renderScene = BottomNavigation.SceneMap({
         scenesList: () => <ScenesList />,
         sceneMap: () => <ScenesMap />,
