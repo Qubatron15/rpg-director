@@ -30,7 +30,7 @@ class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
     };
   }
 
-  handleChange = (fieldName: string, newValue: string) => {
+  private handleChange(fieldName: string, newValue: string) {
     this.setState(prevState => ({
       formDirty: true,
       formValues: {
@@ -40,7 +40,7 @@ class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
     }));
   };
 
-  submit = () => {
+  private submit() {
     const { sceneName, sceneDescription } = this.state.formValues;
     const newScene = {
       id: Date.now(),
@@ -48,6 +48,14 @@ class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
     };
 
     this.props.addScene(newScene);
+
+    this.setState({
+      formValues: {
+        sceneName: '',
+        sceneDescription: ''
+      },
+      formDirty: false
+    });
 
     this.props.navigation.navigate('index');
   };
@@ -76,7 +84,7 @@ class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
           compact={true}
           style={styles.button}
           disabled={!formDirty}
-          onPress={this.submit}
+          onPress={this.submit.bind(this)}
         >
           Add
         </Button>
