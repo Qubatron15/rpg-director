@@ -6,6 +6,7 @@ import { Link } from 'expo-router';
 import { View, StyleSheet } from 'react-native';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
+import App from './app';
 // import { useAppDispatch, useAppSelector } from './store/hooks'
 
 export default function Index() {
@@ -23,22 +24,7 @@ export default function Index() {
   return (
     <PaperProvider>
       <Provider store={store}>
-        <View style={styles.view}>
-          <BottomNavigation
-            navigationState={{ index, routes }}
-            onIndexChange={setIndex}
-            renderScene={renderScene}
-          />
-          <Link href="/AddSceneForm/AddSceneForm"
-            style={styles.addButton}>
-            <IconButton
-              icon="plus"
-              iconColor={MD3Colors.primary0}
-              size={40}
-              mode="contained"
-            />
-          </Link>
-        </View>
+        <App />
       </Provider>
     </PaperProvider>
   );
