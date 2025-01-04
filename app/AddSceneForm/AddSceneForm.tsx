@@ -3,9 +3,11 @@ import { View, StyleSheet } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { addScene } from '../store/slices/scenesListSlice';
+import { useNavigation } from '@react-navigation/native';
 
 interface AddSceneFormProps {
   addScene: (scene: { id: number; name: string }) => void;
+  navigation: any;
 }
 
 interface AddSceneFormState {
@@ -47,13 +49,7 @@ class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
 
     this.props.addScene(newScene);
 
-    this.setState({
-      formValues: {
-        sceneName: '',
-        sceneDescription: ''
-      },
-      formDirty: false
-    });
+    this.props.navigation.navigate('index');
   };
 
   render() {
@@ -103,4 +99,9 @@ const mapDispatchToProps = {
   addScene
 };
 
-export default connect(null, mapDispatchToProps)(AddSceneForm);
+const AddSceneFormWithNavigation = (props: any) => {
+  const navigation = useNavigation();
+  return <AddSceneForm {...props} navigation={navigation} />;
+};
+
+export default connect(null, mapDispatchToProps)(AddSceneFormWithNavigation);
