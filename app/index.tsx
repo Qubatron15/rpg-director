@@ -6,6 +6,7 @@ import App from './app';
 
 class Index extends Component {
   render() {
+    // TODO - here to add the loading spinner when the app starts
     return (
         <App />
     );
