@@ -1,50 +1,75 @@
-import { Link } from 'expo-router';
-import React, { FC } from 'react';
+import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { Button, TextInput } from 'react-native-paper';
 
-interface AddSceneFormProps { }
+interface AddSceneFormProps {}
 
-const AddSceneForm: FC<AddSceneFormProps> = () => {
-  const [formValues, setFormValues] = React.useState({ sceneName: '', sceneDescription: '' });
-  const [formDirty, setFormDirty] = React.useState(false);
-
-  function handleChange(fieldName: string, newValue: string) {
-    setFormDirty(true);
-    setFormValues((prev) => ({ ...prev, [fieldName]: newValue }));
+interface AddSceneFormState {
+  formValues: {
+    sceneName: string;
+    sceneDescription: string;
   };
+  formDirty: boolean;
+}
 
-
-  function submit() {
-    console.log(formValues, formDirty);
+class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
+  constructor(props: AddSceneFormProps) {
+    super(props);
+    this.state = {
+      formValues: {
+        sceneName: '',
+        sceneDescription: ''
+      },
+      formDirty: false
+    };
   }
 
-  return (
-    <View style={styles.formContainer}>
-      <TextInput label="Name"
-        value={formValues.sceneName}
-        onChangeText={text => handleChange('sceneName', text)}
-        mode="outlined"
-      />
-      <TextInput label="Description"
-        value={formValues.sceneDescription}
-        onChangeText={text => handleChange('sceneDescription', text)}
-        mode="outlined"
-        multiline={true}
-      />
+  handleChange = (fieldName: string, newValue: string) => {
+    this.setState(prevState => ({
+      formDirty: true,
+      formValues: {
+        ...prevState.formValues,
+        [fieldName]: newValue
+      }
+    }));
+  };
 
-      <Button icon="camera"
-        mode="contained"
-        compact={true}
-        style={styles.button}
-        disabled={!formDirty}
-        onPress={submit}>
-        Add
-      </Button>
-    </View>
-  );
-};
+  submit = () => {
+    console.log(this.state.formValues, this.state.formDirty);
+  };
+
+  render() {
+    const { formValues, formDirty } = this.state;
+
+    return (
+      <View style={styles.formContainer}>
+        <TextInput
+          label="Name"
+          value={formValues.sceneName}
+          onChangeText={text => this.handleChange('sceneName', text)}
+          mode="outlined"
+        />
+        <TextInput
+          label="Description"
+          value={formValues.sceneDescription}
+          onChangeText={text => this.handleChange('sceneDescription', text)}
+          mode="outlined"
+          multiline={true}
+        />
+        <Button
+          icon="camera"
+          mode="contained"
+          compact={true}
+          style={styles.button}
+          disabled={!formDirty}
+          onPress={this.submit}
+        >
+          Add
+        </Button>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   formContainer: {
