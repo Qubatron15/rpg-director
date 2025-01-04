@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import { connect } from 'react-redux';
+import { addScene } from '../store/slices/scenesListSlice';
 
-interface AddSceneFormProps {}
+interface AddSceneFormProps {
+  addScene: (scene: { id: number; name: string }) => void;
+}
 
 interface AddSceneFormState {
   formValues: {
@@ -35,7 +39,21 @@ class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
   };
 
   submit = () => {
-    console.log(this.state.formValues, this.state.formDirty);
+    const { sceneName, sceneDescription } = this.state.formValues;
+    const newScene = {
+      id: Date.now(),
+      name: sceneName
+    };
+
+    this.props.addScene(newScene);
+
+    this.setState({
+      formValues: {
+        sceneName: '',
+        sceneDescription: ''
+      },
+      formDirty: false
+    });
   };
 
   render() {
@@ -81,4 +99,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddSceneForm;
+const mapDispatchToProps = {
+  addScene
+};
+
+export default connect(null, mapDispatchToProps)(AddSceneForm);

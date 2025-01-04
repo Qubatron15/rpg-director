@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface SceneData {
   id: number;
@@ -21,7 +21,13 @@ const scenesListSlice = createSlice({
       name: 'Titanic'
     }
   ],
-  reducers: {}
-})
+  reducers: {
+    addScene: (state, action: PayloadAction<SceneData>) => {
+      state.push(action.payload);
+    }
+  }
+});
+
+export const { addScene } = scenesListSlice.actions;
 
 export default scenesListSlice.reducer;

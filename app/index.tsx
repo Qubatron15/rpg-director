@@ -7,11 +7,7 @@ import App from './app';
 class Index extends Component {
   render() {
     return (
-      <PaperProvider>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </PaperProvider>
+        <App />
     );
   }
 }
