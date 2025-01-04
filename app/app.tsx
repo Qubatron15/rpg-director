@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { BottomNavigation, IconButton, MD3Colors } from 'react-native-paper';
 import ScenesList from './ScenesList/ScenesList';
-import { RenderScenesMap } from './ScenesMap/ScenesMap';
+import ScenesMap from './ScenesMap/ScenesMap';
 import { BaseRoute } from 'react-native-paper/lib/typescript/components/BottomNavigation/BottomNavigation';
 
 export interface AppComponent {
@@ -14,7 +14,7 @@ export interface AppComponent {
 class App extends Component<any, AppComponent> {
     private renderScene = BottomNavigation.SceneMap({
         scenesList: () => <ScenesList />,
-        sceneMap: RenderScenesMap,
+        sceneMap: () => <ScenesMap />,
     });
 
     constructor(props: any) {

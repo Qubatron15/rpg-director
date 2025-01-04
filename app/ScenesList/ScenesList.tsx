@@ -33,10 +33,8 @@ class ScenesList extends Component<ScenesListProps> {
   }
 }
 
-// Map state to props using connect
 const mapStateToProps = (state: any) => ({
   scenesList: state.scenesList,
 });
 
-// Connect the component to Redux
 export default connect(mapStateToProps)(ScenesList);

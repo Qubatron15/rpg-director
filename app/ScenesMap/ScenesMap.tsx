@@ -1,15 +1,16 @@
-import React, { FC } from 'react';
+import React, { Component } from 'react';
 import { Text } from 'react-native-paper';
-
 
 interface ScenesMapProps {}
 
-const ScenesMap: FC<ScenesMapProps> = () => (
-  <Text>
-    ScenesMap Component
-  </Text>
-);
+class ScenesMap extends Component<ScenesMapProps> {
+  render() {
+    return (
+      <Text>
+        ScenesMap Class Component
+      </Text>
+    );
+  }
+}
 
 export default ScenesMap;
-
-export const RenderScenesMap = () => ScenesMap({});
