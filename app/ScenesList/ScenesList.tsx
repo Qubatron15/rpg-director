@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { IconButton, List, MD3Colors, Modal, Portal, Text } from 'react-native-paper';
 import AddSceneForm from '../AddSceneForm/AddSceneForm';
 import { Link } from 'expo-router';
-import { SceneData } from '../store/slices/scenesSlice';
+import { SceneData } from '../store/slices/scenesListSlice';
 import { useSelector } from 'react-redux';
 
 interface ScenesListProps { }
