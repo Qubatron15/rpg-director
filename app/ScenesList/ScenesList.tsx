@@ -22,7 +22,7 @@ class ScenesList extends Component<ScenesListProps> {
           {
             scenesList.map(scene => (
               <List.Item
-                title={<ScenesListItem name={scene.name} id={scene.id} description={scene.description ?? ''} />}
+                title={<ScenesListItem sceneData={scene} />}
                 key={scene.id}
                 left={() => <List.Icon icon="terrain" />}
               />

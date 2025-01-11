@@ -3,15 +3,13 @@ import { Divider, List, Menu, Text } from "react-native-paper";
 import { connect } from "react-redux";
 import { SceneData } from "../store/slices/scenesListSlice";
 import { View } from "react-native";
+import SceneTile from "./SceneTile";
 
 interface ScenesListItemProps {
-    name: string;
-    description: string;
-    id: number;
+    sceneData: SceneData
 }
 
 interface ScenesListItemState {
-    sceneData: SceneData,
     menuVisible: boolean
 }
 
@@ -20,9 +18,6 @@ class ScenesListItem extends Component<ScenesListItemProps, ScenesListItemState>
         super(props);
 
         this.state = {
-            sceneData: {
-                ...props
-            },
             menuVisible: false
         }
     }
@@ -33,18 +28,20 @@ class ScenesListItem extends Component<ScenesListItemProps, ScenesListItemState>
 
     closeMenu() {
         this.setState({ menuVisible: false });
+        // anchor={<Text onLongPress={this.openMenu.bind(this)}>{name}{id}</Text>}
     }
 
 
     render() {
-        const { name, description, id } = this.props;
+        const { sceneData } = this.props;
         const { menuVisible } = this.state
 
         return (
             <Menu
                 visible={menuVisible}
                 onDismiss={this.closeMenu.bind(this)}
-                anchor={<Text onLongPress={this.openMenu.bind(this)}>{name}{id}</Text>}
+                anchor={<Text onLongPress={this.openMenu.bind(this)}><SceneTile sceneData={sceneData}/></Text>}
+                
             >
 
                 <Menu.Item onPress={() => { }} title="Item 1" />
