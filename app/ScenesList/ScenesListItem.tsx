@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { deleteScene, SceneData } from "../store/slices/scenesListSlice";
 import SceneTile from "./SceneTile";
 import { useNavigation } from "expo-router";
+import { NavigationProp } from "@react-navigation/native";
 
 interface ScenesListItemProps {
     deleteScene: (scene: { id: number; name: string }) => void;
     sceneData: SceneData,
-    navigation: any; // todo - fix this any eventually
+    navigation: any // NavigationProp<ReactNavigation.RootParamList>; // todo - fix this any eventually
 }
 
 interface ScenesListItemState {
@@ -38,7 +39,7 @@ class ScenesListItem extends Component<ScenesListItemProps, ScenesListItemState>
 
     viewScene() {
         this.setState({menuVisible: false});
-        this.props.navigation.navigate('ViewScene/ViewScene');
+        this.props.navigation.navigate('ViewScene/ViewScene', { sceneId: this.props.sceneData.id });
     }
 
     render() {

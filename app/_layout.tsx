@@ -10,7 +10,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="index" options={{ title: 'Scenes' }} />
           <Stack.Screen name="AddSceneForm/AddSceneForm" options={{ title: 'Add/Edit scene' }} />
-          <Stack.Screen name="ViewScene/ViewScene" options={{ title: 'View scene' }} />
+          <Stack.Screen name="ViewScene/ViewScene" />
         </Stack>
       </PaperProvider >
     </Provider >
