@@ -112,7 +112,8 @@ const mapDispatchToProps = {
   addScene
 };
 
-const AddSceneFormWithNavigation = (props: any) => {
+// TODO - add type for props
+const AddSceneFormWithNavigation = (props: Omit<AddSceneFormProps, 'navigation'>) => {
   const navigation = useNavigation();
   return <AddSceneForm {...props} navigation={navigation} />;
 };

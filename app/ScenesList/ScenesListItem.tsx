@@ -1,12 +1,14 @@
 import { Component } from "react";
-import { Divider, List, Menu, Text } from "react-native-paper";
+import { Menu, Text } from "react-native-paper";
 import { connect } from "react-redux";
-import { SceneData } from "../store/slices/scenesListSlice";
-import { View } from "react-native";
+import { deleteScene, SceneData } from "../store/slices/scenesListSlice";
 import SceneTile from "./SceneTile";
+import { useNavigation } from "expo-router";
 
 interface ScenesListItemProps {
-    sceneData: SceneData
+    deleteScene: (scene: { id: number; name: string }) => void;
+    sceneData: SceneData,
+    navigation: any; // todo - fix this any eventually
 }
 
 interface ScenesListItemState {
@@ -28,26 +30,34 @@ class ScenesListItem extends Component<ScenesListItemProps, ScenesListItemState>
 
     closeMenu() {
         this.setState({ menuVisible: false });
-        // anchor={<Text onLongPress={this.openMenu.bind(this)}>{name}{id}</Text>}
     }
 
+    deleteScene() {
+        this.props.deleteScene(this.props.sceneData);
+    }
+
+    viewScene() {
+        this.setState({menuVisible: false});
+        this.props.navigation.navigate('ViewScene/ViewScene');
+    }
 
     render() {
         const { sceneData } = this.props;
         const { menuVisible } = this.state
 
+        // TODO - mkake the DELETE option red here
+        // TODO - check if this is poossible to add onLongPress to custom component
         return (
             <Menu
                 visible={menuVisible}
                 onDismiss={this.closeMenu.bind(this)}
-                anchor={<Text onLongPress={this.openMenu.bind(this)}><SceneTile sceneData={sceneData}/></Text>}
-                
+                anchor={<Text onPress={this.viewScene.bind(this)} onLongPress={this.openMenu.bind(this)}><SceneTile sceneData={sceneData}/></Text>}
             >
 
-                <Menu.Item onPress={() => { }} title="Item 1" />
-                <Menu.Item onPress={() => { }} title="Item 2" />
-                <Divider />
-                <Menu.Item onPress={() => { }} title="Item 3" />
+                <Menu.Item onPress={this.viewScene.bind(this)} title="View" />
+                <Menu.Item onPress={() => { }} title="Edit" />
+                <Menu.Item onPress={this.deleteScene.bind(this)} title="Delete" />
+                <Menu.Item onPress={() => { }} title="IDK - move?" />
 
             </Menu>
         )
@@ -55,4 +65,14 @@ class ScenesListItem extends Component<ScenesListItemProps, ScenesListItemState>
     }
 }
 
-export default connect()(ScenesListItem);
+const mapDispatchToProps = {
+    deleteScene,
+}
+
+
+const ScenesListItemVithNavigation = (props: Omit<ScenesListItemProps, 'navigation'>) => {
+    const navigation = useNavigation();
+    return <ScenesListItem {...props} navigation={navigation} />
+}
+
+export default connect(null, mapDispatchToProps)(ScenesListItemVithNavigation);

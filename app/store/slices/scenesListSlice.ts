@@ -23,12 +23,16 @@ const scenesListSlice = createSlice({
     }
   ],
   reducers: {
-    addScene: (state, action: PayloadAction<SceneData>) => {
+    addScene: (state: SceneData[], action: PayloadAction<SceneData>) => {
       state.push(action.payload);
+    },
+    deleteScene: (state: SceneData[], action: PayloadAction<SceneData>) => {
+      const index = state.findIndex(scene => scene.id === action.payload.id);
+      if (index !== -1) state.splice(index, 1);
     }
   }
 });
 
-export const { addScene } = scenesListSlice.actions;
+export const { addScene, deleteScene } = scenesListSlice.actions;
 
 export default scenesListSlice.reducer;
