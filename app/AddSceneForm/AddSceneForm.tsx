@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { addScene } from '../store/slices/scenesListSlice';
 import { useNavigation } from '@react-navigation/native';
 
 interface AddSceneFormProps {
   addScene: (scene: { id: number; name: string }) => void;
-  navigation: any;
+  navigation: any; // todo - fix this any eventually
 }
 
 interface AddSceneFormState {
@@ -73,6 +73,9 @@ class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
           onChangeText={text => this.handleChange('sceneName', text)}
           mode="outlined"
         />
+        <HelperText type="error" visible={formDirty && !formValues.sceneName}>
+          Scene name is required
+        </HelperText>
         <TextInput
           label="Description"
           value={formValues.sceneDescription}
