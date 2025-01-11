@@ -21,7 +21,11 @@ class ScenesList extends Component<ScenesListProps> {
           expanded={true}>
           {
             scenesList.map(scene => (
-              <ScenesListItem sceneName={scene.name} id={scene.id} sceneDescription={scene.description ?? ''} />
+              <List.Item
+                title={<ScenesListItem name={scene.name} id={scene.id} description={scene.description ?? ''} />}
+                key={scene.id}
+                left={() => <List.Icon icon="terrain" />}
+              />
             ))
           }
         </List.Accordion>

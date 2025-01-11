@@ -1,23 +1,58 @@
 import { Component } from "react";
-import { List } from "react-native-paper";
+import { Divider, List, Menu, Text } from "react-native-paper";
 import { connect } from "react-redux";
+import { SceneData } from "../store/slices/scenesListSlice";
+import { View } from "react-native";
 
 interface ScenesListItemProps {
-    sceneName: string;
-    sceneDescription: string;
+    name: string;
+    description: string;
     id: number;
 }
 
-class ScenesListItem extends Component<ScenesListItemProps> {
+interface ScenesListItemState {
+    sceneData: SceneData,
+    menuVisible: boolean
+}
+
+class ScenesListItem extends Component<ScenesListItemProps, ScenesListItemState> {
+    constructor(props: ScenesListItemProps) {
+        super(props);
+
+        this.state = {
+            sceneData: {
+                ...props
+            },
+            menuVisible: false
+        }
+    }
+
+    openMenu() {
+        this.setState({ menuVisible: true });
+    }
+
+    closeMenu() {
+        this.setState({ menuVisible: false });
+    }
+
+
     render() {
-        const { sceneName, sceneDescription, id } = this.props;
+        const { name, description, id } = this.props;
+        const { menuVisible } = this.state
 
         return (
-            <List.Item
-                title={sceneName}
-                key={id}
-                left={() => <List.Icon icon="terrain" />}
-            />
+            <Menu
+                visible={menuVisible}
+                onDismiss={this.closeMenu.bind(this)}
+                anchor={<Text onLongPress={this.openMenu.bind(this)}>{name}{id}</Text>}
+            >
+
+                <Menu.Item onPress={() => { }} title="Item 1" />
+                <Menu.Item onPress={() => { }} title="Item 2" />
+                <Divider />
+                <Menu.Item onPress={() => { }} title="Item 3" />
+
+            </Menu>
         )
 
     }
