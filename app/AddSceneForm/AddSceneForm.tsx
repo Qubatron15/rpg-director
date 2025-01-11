@@ -57,7 +57,9 @@ class AddSceneForm extends Component<AddSceneFormProps, AddSceneFormState> {
       formDirty: false
     });
 
-    this.props.navigation.navigate('index');
+    // todo - change it so the BACK button is not available
+    // this.props.navigation.navigate('index');
+    this.props.navigation.goBack();
   };
 
   render() {
