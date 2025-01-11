@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface SceneData {
   id: number;
   name: string;
+  description?: string;
 }
 
 const scenesListSlice = createSlice({

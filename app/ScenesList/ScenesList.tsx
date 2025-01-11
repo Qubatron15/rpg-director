@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { SceneData } from '../store/slices/scenesListSlice';
+import ScenesListItem from './ScenesListItem';
 
 interface ScenesListProps {
   scenesList: SceneData[];
@@ -20,11 +21,7 @@ class ScenesList extends Component<ScenesListProps> {
           expanded={true}>
           {
             scenesList.map(scene => (
-              <List.Item 
-                title={scene.name} 
-                key={scene.id} 
-                left={() => <List.Icon icon="terrain" />} 
-              />
+              <ScenesListItem sceneName={scene.name} id={scene.id} sceneDescription={scene.description ?? ''} />
             ))
           }
         </List.Accordion>
@@ -33,7 +30,7 @@ class ScenesList extends Component<ScenesListProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: any) => ({ // todo - add type for store here
   scenesList: state.scenesList,
 });
 
