@@ -5,6 +5,10 @@ import { useNavigation } from "expo-router";
 import { useRoute } from "@react-navigation/native";
 import { getSceneById, SceneData } from "../store/slices/scenesListSlice";
 
+interface ViewSceneState {
+    selectedSceneData: SceneData;
+}
+
 interface ViewSceneProps {
     navigation: any; // todo add the type
     route: any;
@@ -12,24 +16,32 @@ interface ViewSceneProps {
     getSceneById: (id: number) => SceneData | undefined
 }
 
-class ViewScene extends Component<ViewSceneProps> {
+class ViewScene extends Component<ViewSceneProps, ViewSceneState> {
     constructor(props: ViewSceneProps) {
         super(props);
-        const currentSceneName = props.scenesList.find(scene => scene.id === props.route.params.sceneId)?.name ?? 'Untitled scene';
-        props.navigation.setOptions({ title: currentSceneName });
+        const { navigation } = props;
+        const currentScene = this.getSceneData();
+
+        if (!currentScene) navigation.goBack();
+
+        navigation.setOptions({ title: currentScene!.name });
+
+        this.state = { selectedSceneData: currentScene! };
     }
 
-    getSceneData() {
+    getSceneData(): SceneData | undefined {
         const { route, getSceneById } = this.props;
-        const scene = getSceneById(Number(route.params.sceneId)); // Correct usage with both arguments provided
-        console.log('+++++', scene);
+        return getSceneById(Number(route.params.sceneId));
     }
 
     render() {
         this.getSceneData();
 
         return (
-            <Text>This is view scene view {this.props.route.params.sceneId}</Text>
+            <Text>
+                <h1>{this.state.selectedSceneData.name}</h1>
+                <p>{this.state.selectedSceneData.description}</p>
+            </Text>
         )
     }
 }

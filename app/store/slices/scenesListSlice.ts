@@ -10,15 +10,18 @@ export interface SceneData {
 const initialState: SceneData[] = [
   {
     id: 1,
-    name: 'Attic'
+    name: 'Attic',
+    description: 'the aattic'
   },
   {
     id: 2,
-    name: 'Polio'
+    name: 'Polio',
+    description: 'the p[olio'
   },
   {
     id: 3,
-    name: 'Titanic'
+    name: 'Titanic',
+    description: 'the titanic'
   }
 ];
 
@@ -36,7 +39,6 @@ const scenesListSlice = createSlice({
   }
 });
 
-// Selector to get a scene by its ID
 export const getSceneById = (state: RootState, id: number): SceneData | undefined => state.scenesList.find(scene => scene.id === id);
 
 export const { addScene, deleteScene } = scenesListSlice.actions;
