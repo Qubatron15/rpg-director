@@ -4,6 +4,7 @@ import { Text } from 'react-native-paper';
 import { useNavigation } from "expo-router";
 import { useRoute } from "@react-navigation/native";
 import { getSceneById, SceneData } from "../store/slices/scenesListSlice";
+import { View } from "react-native";
 
 interface ViewSceneState {
     selectedSceneData: SceneData;
@@ -38,10 +39,10 @@ class ViewScene extends Component<ViewSceneProps, ViewSceneState> {
         this.getSceneData();
 
         return (
-            <Text>
-                <h1>{this.state.selectedSceneData.name}</h1>
-                <p>{this.state.selectedSceneData.description}</p>
-            </Text>
+            <View>
+                <Text variant="titleLarge">{this.state.selectedSceneData.name}</Text>
+                <Text variant="bodyMedium">{this.state.selectedSceneData.description}</Text>
+            </View>
         )
     }
 }
