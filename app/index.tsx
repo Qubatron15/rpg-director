@@ -1,16 +1,18 @@
-import { Component } from 'react';
+import React from 'react';
 import { PaperProvider } from 'react-native-paper';
-import { store } from './store/store';
 import { Provider } from 'react-redux';
+import { store } from './store/store';
 import App from './app';
+import { useGetAllScenesQuery } from './store/slices/apiSlice';
 
-class Index extends Component {
-  render() {
-    // TODO - here to add the loading spinner when the app starts
-    return (
-        <App />
-    );
-  }
-}
+const Index = () => {
+  const { data, error, isLoading } = useGetAllScenesQuery('');
+  console.log('-0--------', data, error, isLoading);
+
+  // TODO - Add a loading spinner when the app starts
+  return (
+    <App />
+  );
+};
 
 export default Index;

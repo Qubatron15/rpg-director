@@ -71,9 +71,9 @@ const mapDispatchToProps = {
 }
 
 
-const ScenesListItemVithNavigation = (props: Omit<ScenesListItemProps, 'navigation'>) => {
+const ScenesListItemFunctionWrapper = (props: Omit<ScenesListItemProps, 'navigation'>) => {
     const navigation = useNavigation();
     return <ScenesListItem {...props} navigation={navigation} />
 }
 
-export default connect(null, mapDispatchToProps)(ScenesListItemVithNavigation);
+export default connect(null, mapDispatchToProps)(ScenesListItemFunctionWrapper);
