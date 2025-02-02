@@ -1,3 +1,4 @@
+import { CONFIG } from '@/app/config';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const mongoDbApi = createApi({
@@ -5,7 +6,7 @@ export const mongoDbApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://us-east-2.aws.neurelo.com/rest',
         prepareHeaders: (headers, { getState }) => {
-            headers.set('X-API-KEY', '')
+            headers.set('X-API-KEY', CONFIG.API_CONNECTION_STRING)
             return headers
         }
     }),
