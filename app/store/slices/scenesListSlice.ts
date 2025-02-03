@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store"; // Adjust the path based on your project structure
 
 export interface SceneData {
@@ -7,28 +7,13 @@ export interface SceneData {
   description?: string;
 }
 
-const initialState: SceneData[] = [
-  {
-    id: 1,
-    name: 'Attic',
-    description: 'the aattic'
-  },
-  {
-    id: 2,
-    name: 'Polio',
-    description: 'the p[olio'
-  },
-  {
-    id: 3,
-    name: 'Titanic',
-    description: 'the titanic'
-  }
-];
+const initialState: SceneData[] = [];
 
 const scenesListSlice = createSlice({
   name: "scenesList",
   initialState,
   reducers: {
+    initScenesList: (state: SceneData[], action: PayloadAction<SceneData[]>) => action.payload,
     addScene: (state: SceneData[], action: PayloadAction<SceneData>) => {
       state.push(action.payload);
     },
@@ -41,6 +26,6 @@ const scenesListSlice = createSlice({
 
 export const getSceneById = (state: RootState, id: number): SceneData | undefined => state.scenesList.find(scene => scene.id === id);
 
-export const { addScene, deleteScene } = scenesListSlice.actions;
+export const { addScene, deleteScene, initScenesList } = scenesListSlice.actions;
 
 export default scenesListSlice.reducer;
