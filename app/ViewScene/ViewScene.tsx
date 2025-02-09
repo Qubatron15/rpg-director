@@ -15,7 +15,7 @@ const ViewScene: React.FC = () => {
 
   useEffect(() => {
     if (!selectedSceneData) {
-      navigation.navigate("index");
+      navigation.navigate("index"); // TODO - here we can consider fetching only one scene from DB if it's missing
     } else {
       navigation.setOptions({ title: selectedSceneData.name });
     }
