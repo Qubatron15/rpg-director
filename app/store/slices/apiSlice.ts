@@ -16,10 +16,10 @@ export const mongoDbApi = createApi({
             query: () => 'scenes',
         }),
         addNewScene: builder.mutation({
-            query: ({ id, ...patch }) => ({ 
-                url: 'scenes/__one?',
+            query: (newSceneData: Omit<SceneData, 'id'>) => ({ 
+                url: 'scenes/__one',
                 method: 'POST',
-                body: { name: 'NEW SCENE', description: 'SCENE DESC' } as SceneData,
+                body: newSceneData,
             }),
         })
     })

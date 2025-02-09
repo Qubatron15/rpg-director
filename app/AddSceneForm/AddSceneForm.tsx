@@ -1,13 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper';
-import { useDispatch } from 'react-redux'; // Import useDispatch
-import { addScene } from '../store/slices/scenesListSlice';
+import { useDispatch } from 'react-redux';
+import { addScene, SceneData } from '../store/slices/scenesListSlice';
 import { useNavigation } from '@react-navigation/native';
 import { useAddNewSceneMutation } from '../store/slices/apiSlice';
+import { BaseEndpointDefinition, ResultTypeFrom } from '@reduxjs/toolkit/query';
 
 const AddSceneForm: React.FC = () => {
-  const dispatch = useDispatch(); // Use the dispatch hook to get the dispatch function
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [formValues, setFormValues] = useState({ sceneName: '', sceneDescription: '' });
@@ -26,23 +27,30 @@ const AddSceneForm: React.FC = () => {
     setFormDirty(true);
   }, []);
 
-  const submit = useCallback(() => {
+  const submit = useCallback(async () => {
     const newScene = {
       id: `${Date.now()}`,
       name: formValues.sceneName,
       description: formValues.sceneDescription
     };
 
-    // Dispatch the action directly
-    dispatch(addScene(newScene as any));
-    void saveNewScene(newScene);
+    try {
+      const result: { data: SceneData } = await saveNewScene({
+        name: newScene.name,
+        description: newScene.description
+      }).unwrap();
+      dispatch(addScene(result.data));
 
-    setFormValues({
-      sceneName: '',
-      sceneDescription: '',
-    });
-    setFormDirty(false);
-    navigation.goBack();
+      setFormValues({
+        sceneName: '',
+        sceneDescription: '',
+      });
+      setFormDirty(false);
+      navigation.goBack();
+
+    } catch (error) {
+      console.error("Failed to add scene:", error);
+    }
   }, [formValues, dispatch, navigation]);
 
   return (
