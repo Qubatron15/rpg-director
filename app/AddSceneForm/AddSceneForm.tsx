@@ -15,7 +15,7 @@ const AddSceneForm: React.FC = () => {
   const [formDirty, setFormDirty] = useState(false);
   const [formValid, setFormValid] = useState(false);
 
-  const [saveNewScene, { isLoading }] = useAddNewSceneMutation();
+  const [requestAddNewScene, { isLoading }] = useAddNewSceneMutation();
 
   useEffect(() => setFormValid(!!(formDirty && formValues.sceneName)), [formDirty, formValues])
 
@@ -35,7 +35,8 @@ const AddSceneForm: React.FC = () => {
     };
 
     try {
-      const result: { data: SceneData } = await saveNewScene({
+      // TODO add sort of waiting spinner here
+      const result: { data: SceneData } = await requestAddNewScene({
         name: newScene.name,
         description: newScene.description
       }).unwrap();

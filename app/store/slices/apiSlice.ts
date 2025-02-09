@@ -21,8 +21,14 @@ export const mongoDbApi = createApi({
                 method: 'POST',
                 body: newSceneData,
             }),
+        }),
+        deleteScene: builder.mutation({
+            query: (sceneId: string) => ({
+                url: `scenes/${sceneId}`,
+                method: 'DELETE'
+            })
         })
     })
 });
 
-export const { useGetAllScenesQuery, useAddNewSceneMutation } = mongoDbApi;
+export const { useGetAllScenesQuery, useAddNewSceneMutation, useDeleteSceneMutation } = mongoDbApi;
