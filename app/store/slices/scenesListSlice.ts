@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store"; // Adjust the path based on your project structure
 
 export interface SceneData {
-  id: number;
+  id: string;
   name: string;
   description?: string;
 }
@@ -24,7 +24,11 @@ const scenesListSlice = createSlice({
   }
 });
 
-export const getSceneById = (state: RootState, id: number): SceneData | undefined => state.scenesList.find(scene => scene.id === id);
+export const getSceneById = (state: RootState, id: string): SceneData | undefined => {
+  const theScene = state.scenesList.find(scene => scene.id === id);
+  debugger; // the scene!
+  return theScene;
+}
 
 export const { addScene, deleteScene, initScenesList } = scenesListSlice.actions;
 

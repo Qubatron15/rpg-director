@@ -14,7 +14,7 @@ interface ViewSceneProps {
     navigation: any; // todo add the type
     route: any;
     scenesList: SceneData[]
-    getSceneById: (id: number) => SceneData | undefined
+    getSceneById: (id: string) => SceneData | undefined
 }
 
 class ViewScene extends Component<ViewSceneProps, ViewSceneState> {
@@ -22,8 +22,9 @@ class ViewScene extends Component<ViewSceneProps, ViewSceneState> {
         super(props);
         const { navigation } = props;
         const currentScene = this.getSceneData();
+        debugger; // the scerne
 
-        if (!currentScene) navigation.goBack();
+        if (!currentScene) navigation.goBack(); // TODO - i think this is not working -_-
 
         navigation.setOptions({ title: currentScene!.name });
 
@@ -32,7 +33,7 @@ class ViewScene extends Component<ViewSceneProps, ViewSceneState> {
 
     getSceneData(): SceneData | undefined {
         const { route, getSceneById } = this.props;
-        return getSceneById(Number(route.params.sceneId));
+        return getSceneById(route.params.sceneId);
     }
 
     render() {
@@ -55,7 +56,7 @@ const ViewSceneWithNavigation = (props: Omit<ViewSceneProps, 'navigation'>) => {
 
 const mapStateToProps = (state: any) => ({ // todo - add type for store here
     scenesList: state.scenesList,
-    getSceneById: (id: number) => getSceneById(state, id), // Create a wrapper function
+    getSceneById: (id: string) => getSceneById(state, id), // Create a wrapper function
 });
 
 export default connect(mapStateToProps)(ViewSceneWithNavigation);

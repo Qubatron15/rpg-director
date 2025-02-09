@@ -12,10 +12,10 @@ interface SceneTimeProps {
 // TODO - this component should contain tile with graphic for every scene
 class SceneTile extends Component<SceneTimeProps> {
     render() {
-        const { name } = this.props.sceneData;
+        const { name, id } = this.props.sceneData;
 
         return (
-            <Chip style={styles.tile}>{name}</Chip>
+            <Chip style={styles.tile}>{name},{id}</Chip>
         )
     }
 }

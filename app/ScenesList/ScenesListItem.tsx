@@ -7,7 +7,7 @@ import { useNavigation } from "expo-router";
 import { NavigationProp } from "@react-navigation/native";
 
 interface ScenesListItemProps {
-    deleteScene: (scene: { id: number; name: string }) => void;
+    deleteScene: (scene: SceneData) => void;
     sceneData: SceneData,
     navigation: any // NavigationProp<ReactNavigation.RootParamList>; // todo - fix this any eventually
 }
@@ -38,6 +38,7 @@ class ScenesListItem extends Component<ScenesListItemProps, ScenesListItemState>
     }
 
     viewScene() {
+        debugger; // the press
         this.setState({menuVisible: false});
         this.props.navigation.navigate('ViewScene/ViewScene', { sceneId: this.props.sceneData.id });
     }
