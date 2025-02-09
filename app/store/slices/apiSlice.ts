@@ -1,5 +1,6 @@
 import { CONFIG } from '@/app/config';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { SceneData } from './scenesListSlice';
 
 export const mongoDbApi = createApi({
     reducerPath: 'mongoDbApi',
@@ -13,8 +14,15 @@ export const mongoDbApi = createApi({
     endpoints: (builder) => ({
         getAllScenes: builder.query({
             query: () => 'scenes',
+        }),
+        addNewScene: builder.mutation({
+            query: ({ id, ...patch }) => ({ 
+                url: 'scenes/__one?',
+                method: 'POST',
+                body: { name: 'NEW SCENE', description: 'SCENE DESC' } as SceneData,
+            }),
         })
     })
 });
 
-export const { useGetAllScenesQuery } = mongoDbApi;
+export const { useGetAllScenesQuery, useAddNewSceneMutation } = mongoDbApi;

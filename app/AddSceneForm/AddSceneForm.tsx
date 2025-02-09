@@ -4,19 +4,17 @@ import { Button, HelperText, TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { addScene } from '../store/slices/scenesListSlice';
 import { useNavigation } from '@react-navigation/native';
+import { useAddNewSceneMutation } from '../store/slices/apiSlice';
 
 const AddSceneForm: React.FC = () => {
   const dispatch = useDispatch(); // Use the dispatch hook to get the dispatch function
   const navigation = useNavigation();
-  
-  const [formValues, setFormValues] = useState({
-    sceneName: '',
-    sceneDescription: '',
-  });
 
+  const [formValues, setFormValues] = useState({ sceneName: '', sceneDescription: '' });
   const [formDirty, setFormDirty] = useState(false);
-
   const [formValid, setFormValid] = useState(false);
+
+  const [saveNewScene, { isLoading }] = useAddNewSceneMutation();
 
   useEffect(() => setFormValid(!!(formDirty && formValues.sceneName)), [formDirty, formValues])
 
@@ -29,14 +27,15 @@ const AddSceneForm: React.FC = () => {
   }, []);
 
   const submit = useCallback(() => {
-    const { sceneName } = formValues;
     const newScene = {
-      id: Date.now(),
-      name: sceneName,
+      id: `${Date.now()}`,
+      name: formValues.sceneName,
+      description: formValues.sceneDescription
     };
 
     // Dispatch the action directly
-    dispatch(addScene(newScene));
+    dispatch(addScene(newScene as any));
+    void saveNewScene(newScene);
 
     setFormValues({
       sceneName: '',

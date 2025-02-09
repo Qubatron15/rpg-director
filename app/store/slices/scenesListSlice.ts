@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store"; // Adjust the path based on your project structure
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface SceneData {
   id: string;
