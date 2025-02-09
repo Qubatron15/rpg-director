@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { addScene, SceneData } from '../store/slices/scenesListSlice';
 import { useNavigation } from '@react-navigation/native';
 import { useAddNewSceneMutation } from '../store/slices/apiSlice';
-import { BaseEndpointDefinition, ResultTypeFrom } from '@reduxjs/toolkit/query';
 
 const AddSceneForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const AddSceneForm: React.FC = () => {
 
   useEffect(() => setFormValid(!!(formDirty && formValues.sceneName)), [formDirty, formValues])
 
-  const handleChange = useCallback((fieldName: string, newValue: string) => {
+  const handleTextChange = useCallback((fieldName: string, newValue: string) => {
     setFormValues(prevState => ({
       ...prevState,
       [fieldName]: newValue,
@@ -27,7 +26,7 @@ const AddSceneForm: React.FC = () => {
     setFormDirty(true);
   }, []);
 
-  const submit = useCallback(async () => {
+  const handleFormSubmit = useCallback(async () => {
     const newScene = {
       id: `${Date.now()}`,
       name: formValues.sceneName,
@@ -59,7 +58,7 @@ const AddSceneForm: React.FC = () => {
       <TextInput
         label="Name"
         value={formValues.sceneName}
-        onChangeText={text => handleChange('sceneName', text)}
+        onChangeText={text => handleTextChange('sceneName', text)}
         mode="outlined"
       />
       <HelperText type="error" visible={formDirty && !formValues.sceneName}>
@@ -68,7 +67,7 @@ const AddSceneForm: React.FC = () => {
       <TextInput
         label="Description"
         value={formValues.sceneDescription}
-        onChangeText={text => handleChange('sceneDescription', text)}
+        onChangeText={text => handleTextChange('sceneDescription', text)}
         mode="outlined"
         multiline={true}
       />
@@ -78,7 +77,7 @@ const AddSceneForm: React.FC = () => {
         compact={true}
         style={styles.button}
         disabled={!formValid}
-        onPress={submit}
+        onPress={handleFormSubmit}
       >
         Add
       </Button>
