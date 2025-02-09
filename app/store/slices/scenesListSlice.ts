@@ -21,15 +21,14 @@ const scenesListSlice = createSlice({
       const index = state.findIndex(scene => scene.id === action.payload.id);
       if (index !== -1) state.splice(index, 1);
     }
+  },
+  selectors: {
+    getSceneById: (state: SceneData[], id: string): SceneData | undefined => state.find(scene => scene.id === id)
   }
 });
 
-export const getSceneById = (state: RootState, id: string): SceneData | undefined => {
-  const theScene = state.scenesList.find(scene => scene.id === id);
-  debugger; // the scene!
-  return theScene;
-}
-
 export const { addScene, deleteScene, initScenesList } = scenesListSlice.actions;
+
+export const { getSceneById } = scenesListSlice.selectors;
 
 export default scenesListSlice.reducer;
