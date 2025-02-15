@@ -1,61 +1,42 @@
-import { Link } from 'expo-router';
-import React, { Component } from 'react';
+import { useNavigation } from 'expo-router';
+import React, { useCallback, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { BottomNavigation, IconButton, MD3Colors, TouchableRipple } from 'react-native-paper';
+import { BottomNavigation, FAB, TouchableRipple } from 'react-native-paper';
 import ScenesList from './ScenesList/ScenesList';
 import ScenesMap from './ScenesMap/ScenesMap';
-import { BaseRoute } from 'react-native-paper/lib/typescript/components/BottomNavigation/BottomNavigation';
 
-interface AppProps {}
+const App: React.FC = () => {
+    const navigation = useNavigation();
 
-interface AppState {
-    index: number;
-    routes: BaseRoute[];
-}
+    const routes = [
+        { key: 'scenesList', title: 'List', focusedIcon: 'view-list' },
+        { key: 'sceneMap', title: 'Map', focusedIcon: 'map' },
+    ];
 
-class App extends Component<AppProps, AppState> {
-    private renderScene = BottomNavigation.SceneMap({
+    const renderScene = BottomNavigation.SceneMap({
         scenesList: () => <ScenesList />,
         sceneMap: () => <ScenesMap />,
     });
 
-    constructor(props: any) {
-        super(props);
+    const [index, setIndex] = useState<number>(0);
 
-        this.state = {
-            index: 0,
-            routes: [
-                { key: 'scenesList', title: 'List', focusedIcon: 'view-list' },
-                { key: 'sceneMap', title: 'Map', focusedIcon: 'map' },
-            ]
-        };
-    }
+    const handleAddScene = useCallback(() => navigation.navigate('AddSceneForm/AddSceneForm', {}), [])
 
-    private setIndex(newIndex: number) {
-        this.setState({ index: newIndex });
-    }
-
-    render() {
-        return (
-            <View style={styles.view}>
-                <BottomNavigation
-                    navigationState={{ index: this.state.index, routes: this.state.routes }}
-                    onIndexChange={this.setIndex.bind(this)}
-                    renderScene={this.renderScene}
-                    renderTouchable={({key, ...props}) => (<TouchableRipple key={key} {...props} />)} // fix for BottomNavigation issue
-                />
-                <Link href="/AddSceneForm/AddSceneForm"
-                    style={styles.addButton}>
-                    <IconButton
-                        icon="plus"
-                        iconColor={MD3Colors.primary0}
-                        size={40}
-                        mode="contained"
-                    />
-                </Link>
-            </View>
-        );
-    }
+    return (
+        <View style={styles.view}>
+            <BottomNavigation
+                navigationState={{ index: index, routes: routes }}
+                onIndexChange={setIndex}
+                renderScene={renderScene}
+                renderTouchable={({ key, ...props }) => (<TouchableRipple key={key} {...props} />)} // fix for BottomNavigation issue
+            />
+            <FAB
+                style={styles.addButton}
+                icon="plus"
+                onPress={handleAddScene}
+            />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

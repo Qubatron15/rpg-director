@@ -13,7 +13,7 @@ const AddSceneForm: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const sceneId = (route.params as { sceneId: string }).sceneId;
+  const sceneId = (route.params as { sceneId: string } | undefined)?.sceneId;
   let selectedSceneData: SceneData | undefined;
   if (sceneId) {
     selectedSceneData = useSelector((state: RootState[]) => getSceneById(state, sceneId));
