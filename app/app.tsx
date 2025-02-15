@@ -35,7 +35,6 @@ class App extends Component<AppProps, AppState> {
         this.setState({ index: newIndex });
     }
 
-
     render() {
         return (
             <View style={styles.view}>
