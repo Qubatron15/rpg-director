@@ -5,6 +5,7 @@ import App from './app';
 import { initScenesList } from './store/slices/scenesListSlice';
 import { useGetAllScenesQuery } from './store/slices/apiSlice';
 import { View, StyleSheet } from 'react-native';
+import LoaderIndicator from './LoaderIndicator';
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Index = () => {
 
   return (
     <View style={styles.view}>
+      <LoaderIndicator />
       {isLoading ? <ActivityIndicator size="large" animating={true} style={styles.spinner}/> : <App />}
     </View>
   );
@@ -21,7 +23,7 @@ const Index = () => {
 
 const styles = StyleSheet.create({
   view: {
-    flex: 1
+    flex: 1,
   },
   spinner: {
     flex: 1,

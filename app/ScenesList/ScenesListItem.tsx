@@ -15,7 +15,7 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
-    const [requestDeleteScene, { isLoading }] = useDeleteSceneMutation();
+    const [requestDeleteScene, { isLoading, isError }] = useDeleteSceneMutation();
 
     const [menuVisible, setMenuVisible] = useState(false);
 
@@ -49,8 +49,6 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
 
     return (
         <View>
-            {isLoading && <ProgressBar indeterminate={true} />}
-
             <Menu
                 visible={menuVisible}
                 onDismiss={handleCloseMenu}

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { getSceneById, SceneData } from "../store/slices/scenesListSlice";
+import { getSceneById } from "../store/slices/scenesListSlice";
+import LoaderIndicator from "../LoaderIndicator";
 
 const ViewScene: React.FC = () => {
   const navigation = useNavigation();
@@ -25,6 +26,7 @@ const ViewScene: React.FC = () => {
 
   return (
     <View>
+      <LoaderIndicator />
       <Text variant="titleLarge">{selectedSceneData.name}</Text>
       <Text variant="bodyMedium">{selectedSceneData.description}</Text>
     </View>

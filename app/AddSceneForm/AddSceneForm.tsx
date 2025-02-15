@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, HelperText, TextInput, Text, ProgressBar } from 'react-native-paper';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addScene, getSceneById, SceneData } from '../store/slices/scenesListSlice';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAddNewSceneMutation } from '../store/slices/apiSlice';
 import { RootState } from '../store/store';
+import LoaderIndicator from '../LoaderIndicator';
 
 const AddSceneForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -69,9 +70,7 @@ const AddSceneForm: React.FC = () => {
 
   return (
     <View>
-      <View style={styles.progressBarContainer}>
-        {isLoading && <ProgressBar indeterminate={true} />}
-      </View>
+      <LoaderIndicator />
 
       <View style={styles.formContainer}>
         <TextInput
@@ -106,9 +105,6 @@ const AddSceneForm: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  progressBarContainer: {
-    height: 5,
-  },
   formContainer: {
     padding: 20,
   },

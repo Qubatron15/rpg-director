@@ -1,6 +1,7 @@
 import { CONFIG } from '@/app/config';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { SceneData } from './scenesListSlice';
+import { createSelector } from '@reduxjs/toolkit';
 
 export const mongoDbApi = createApi({
     reducerPath: 'mongoDbApi',
@@ -31,4 +32,11 @@ export const mongoDbApi = createApi({
     })
 });
 
-export const { useGetAllScenesQuery, useAddNewSceneMutation, useDeleteSceneMutation } = mongoDbApi;
+export const selectIsGlobalLoading = createSelector(
+    (state) => state[mongoDbApi.reducerPath],
+    (apiState) =>
+      Object.values(apiState.queries).some((query: any) => query?.status === "pending") ||
+      Object.values(apiState.mutations).some((mutation: any) => mutation?.status === "pending")
+  );
+
+  export const { useGetAllScenesQuery, useAddNewSceneMutation, useDeleteSceneMutation } = mongoDbApi;
