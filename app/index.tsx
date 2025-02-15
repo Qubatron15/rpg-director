@@ -14,7 +14,6 @@ const Index = () => {
 
   useEffect(() => { dispatch(initScenesList(data?.data ?? [])); }, [isLoading]);
 
-  // TODO - Add a loading spinner when the app starts
   return (
     <View style={{ flex: 1 }}>
       {isLoading ? <ActivityIndicator size="large" animating={true} /> : <App />}

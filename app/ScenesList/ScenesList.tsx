@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { SceneData } from '../store/slices/scenesListSlice';
@@ -14,7 +14,7 @@ class ScenesList extends Component<ScenesListProps> {
     const { scenesList } = this.props;
 
     return (
-      <View>
+      <ScrollView>
         <List.Accordion
           title="Uncontrolled Accordion - working?"
           left={props => <List.Icon {...props} icon="folder" />}
@@ -29,7 +29,7 @@ class ScenesList extends Component<ScenesListProps> {
             ))
           }
         </List.Accordion>
-      </View>
+      </ScrollView>
     );
   }
 }
