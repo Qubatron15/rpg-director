@@ -22,12 +22,13 @@ const scenesListSlice = createSlice({
     }
   },
   selectors: {
-    getSceneById: (state: SceneData[], id: string): SceneData | undefined => state.find(scene => scene.id === id)
+    getSceneById: (state: SceneData[], id: string): SceneData | undefined => state.find(scene => scene.id === id),
+    getAllScenes: (state: SceneData[]) => state ?? []
   }
 });
 
 export const { addScene, deleteScene, initScenesList } = scenesListSlice.actions;
 
-export const { getSceneById } = scenesListSlice.selectors;
+export const { getSceneById, getAllScenes } = scenesListSlice.selectors;
 
 export default scenesListSlice.reducer;
