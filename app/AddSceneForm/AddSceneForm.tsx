@@ -68,40 +68,47 @@ const AddSceneForm: React.FC = () => {
   }, [formValues, dispatch, navigation]);
 
   return (
-    <View style={styles.formContainer}>
-      {isLoading && <ProgressBar indeterminate={true} />}
+    <View>
+      <View style={styles.progressBarContainer}>
+        {isLoading && <ProgressBar indeterminate={true} />}
+      </View>
 
-      <TextInput
-        label="Name"
-        value={formValues.sceneName}
-        onChangeText={text => handleTextChange('sceneName', text)}
-        mode="outlined"
-      />
-      <HelperText type="error" visible={formDirty && !formValues.sceneName}>
-        Scene name is required
-      </HelperText>
-      <TextInput
-        label="Description"
-        value={formValues.sceneDescription}
-        onChangeText={text => handleTextChange('sceneDescription', text)}
-        mode="outlined"
-        multiline={true}
-      />
-      <Button
-        icon="camera"
-        mode="contained"
-        compact={true}
-        style={styles.button}
-        disabled={!formValid}
-        onPress={handleFormSubmit}
-      >
-        Add
-      </Button>
+      <View style={styles.formContainer}>
+        <TextInput
+          label="Name"
+          value={formValues.sceneName}
+          onChangeText={text => handleTextChange('sceneName', text)}
+          mode="outlined"
+        />
+        <HelperText type="error" visible={formDirty && !formValues.sceneName}>
+          Scene name is required
+        </HelperText>
+        <TextInput
+          label="Description"
+          value={formValues.sceneDescription}
+          onChangeText={text => handleTextChange('sceneDescription', text)}
+          mode="outlined"
+          multiline={true}
+        />
+        <Button
+          icon="camera"
+          mode="contained"
+          compact={true}
+          style={styles.button}
+          disabled={!formValid}
+          onPress={handleFormSubmit}
+        >
+          Add
+        </Button>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  progressBarContainer: {
+    height: 5,
+  },
   formContainer: {
     padding: 20,
   },

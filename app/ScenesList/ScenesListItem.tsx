@@ -5,7 +5,7 @@ import { deleteScene, SceneData } from "../store/slices/scenesListSlice";
 import SceneTile from "./SceneTile";
 import { useNavigation } from "expo-router";
 import { useDeleteSceneMutation } from "../store/slices/apiSlice";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 
 interface ScenesListItemProps {
     sceneData: SceneData,
@@ -54,7 +54,7 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
             <Menu
                 visible={menuVisible}
                 onDismiss={handleCloseMenu}
-                anchor={<Text onPress={handleViewScene} onLongPress={handleOpenMenu}><SceneTile sceneData={sceneData} /></Text>}
+                anchor={<Pressable onPress={handleViewScene} onLongPress={handleOpenMenu}><SceneTile sceneData={sceneData} /></Pressable>}
             >
 
                 <Menu.Item onPress={handleViewScene} title="View" />
