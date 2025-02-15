@@ -15,7 +15,7 @@ const Index = () => {
 
   return (
     <View style={styles.view}>
-      <LoaderIndicator />
+      { !isLoading && <LoaderIndicator /> }
       {isLoading ? <ActivityIndicator size="large" animating={true} style={styles.spinner}/> : <App />}
     </View>
   );
