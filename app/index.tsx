@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, PaperProvider, Text } from 'react-native-paper';
-import { Provider, useDispatch } from 'react-redux';
-import { store } from './store/store';
+import { ActivityIndicator } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 import App from './app';
 import { initScenesList } from './store/slices/scenesListSlice';
 import { useGetAllScenesQuery } from './store/slices/apiSlice';

@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { SceneData } from "../store/slices/scenesListSlice";
 import { connect } from "react-redux";
-import { Chip } from "react-native-paper";
+import { Chip, Text } from "react-native-paper";
 import { StyleSheet } from 'react-native';
 
 
@@ -15,7 +15,7 @@ class SceneTile extends Component<SceneTimeProps> {
         const { name, id } = this.props.sceneData;
 
         return (
-            <Chip style={styles.tile}>{name},{id}</Chip>
+            <Text>{name},{id}</Text>
         )
     }
 }
