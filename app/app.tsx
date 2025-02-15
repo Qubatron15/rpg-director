@@ -1,7 +1,7 @@
 import { Link } from 'expo-router';
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { BottomNavigation, IconButton, MD3Colors } from 'react-native-paper';
+import { BottomNavigation, IconButton, MD3Colors, TouchableRipple } from 'react-native-paper';
 import ScenesList from './ScenesList/ScenesList';
 import ScenesMap from './ScenesMap/ScenesMap';
 import { BaseRoute } from 'react-native-paper/lib/typescript/components/BottomNavigation/BottomNavigation';
@@ -43,6 +43,7 @@ class App extends Component<AppProps, AppState> {
                     navigationState={{ index: this.state.index, routes: this.state.routes }}
                     onIndexChange={this.setIndex.bind(this)}
                     renderScene={this.renderScene}
+                    renderTouchable={({key, ...props}) => (<TouchableRipple key={key} {...props} />)} // fix for BottomNavigation issue
                 />
                 <Link href="/AddSceneForm/AddSceneForm"
                     style={styles.addButton}>
