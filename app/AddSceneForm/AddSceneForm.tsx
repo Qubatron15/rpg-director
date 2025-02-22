@@ -4,7 +4,7 @@ import { Button, HelperText, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addScene, getSceneById, SceneData } from '../store/slices/scenesListSlice';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useAddNewSceneMutation } from '../store/slices/apiSlice';
+import { useAddNewSceneMutation, useGetAllScenesQuery, useUpdateSceneMutation } from '../store/slices/apiSlice';
 import { RootState } from '../store/store';
 import LoaderIndicator from '../LoaderIndicator';
 
@@ -26,11 +26,14 @@ const AddSceneForm: React.FC = () => {
   const [formDirty, setFormDirty] = useState(false);
   const [formValid, setFormValid] = useState(false);
 
-  const [requestAddNewScene, { isLoading }] = useAddNewSceneMutation();
+  const [requestAddNewScene, addSceneQuery] = useAddNewSceneMutation();
+  const [requestUpdateScene, updateSceneQuery] = useUpdateSceneMutation();
+  // const [requestAddNewScene, { isLoading }] = selectedSceneData ? useUpdateSceneMutation() : useAddNewSceneMutation();
+
 
   useEffect(
-    () => setFormValid(!!(formDirty && formValues.sceneName && !isLoading)),
-    [formDirty, formValues, isLoading]
+    () => setFormValid(!!(formDirty && formValues.sceneName && !addSceneQuery.isLoading && !updateSceneQuery.isLoading)),
+    [formDirty, formValues, addSceneQuery, updateSceneQuery]
   );
 
   const handleTextChange = useCallback((fieldName: string, newValue: string) => {
@@ -42,19 +45,32 @@ const AddSceneForm: React.FC = () => {
   }, []);
 
   const handleFormSubmit = useCallback(async () => {
-    const newScene = {
-      id: `${Date.now()}`,
+    const formSceneData = {
+      id: selectedSceneData?.id,
       name: formValues.sceneName,
       description: formValues.sceneDescription
     };
 
     try {
-      // TODO add sort of waiting spinner here
-      const result: { data: SceneData } = await requestAddNewScene({
-        name: newScene.name,
-        description: newScene.description
-      }).unwrap();
-      dispatch(addScene(result.data));
+      let result;
+
+      if (selectedSceneData) {
+        result = await requestUpdateScene({
+          id: selectedSceneData.id,
+          name: formSceneData.name,
+          description: formSceneData.description
+        })
+      } else {
+        result = await requestAddNewScene({
+          name: formSceneData.name,
+          description: formSceneData.description
+        }).unwrap();
+
+        // dispatch(addScene(result.data));
+      }
+
+      // const { data, error, isLoading } = useGetAllScenesQuery(''); // TODO - add error handling here
+      // useEffect(() => { dispatch(initScenesList(data?.data ?? [])); }, [isLoading]);
 
       setFormValues({
         sceneName: '',
@@ -97,7 +113,7 @@ const AddSceneForm: React.FC = () => {
           disabled={!formValid}
           onPress={handleFormSubmit}
         >
-          Add
+          {selectedSceneData ? 'Update' : 'Add'}
         </Button>
       </View>
     </View>

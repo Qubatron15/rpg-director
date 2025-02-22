@@ -17,7 +17,7 @@ export const mongoDbApi = createApi({
             query: () => 'scenes',
         }),
         addNewScene: builder.mutation({
-            query: (newSceneData: Omit<SceneData, 'id'>) => ({ 
+            query: (newSceneData: Omit<SceneData, 'id'>) => ({
                 url: 'scenes/__one',
                 method: 'POST',
                 body: newSceneData,
@@ -28,6 +28,20 @@ export const mongoDbApi = createApi({
                 url: `scenes/${sceneId}`,
                 method: 'DELETE'
             })
+        }),
+        updateScene: builder.mutation({
+            query: ({ id, name, description }: SceneData) => {
+                const body: Omit<SceneData, 'id'> = {
+                    name,
+                    description,
+                }
+                debugger; // updating
+                return {
+                    url: `scenes/${id}`,
+                    method: 'PATCH',
+                    body
+                }
+            }
         })
     })
 });
@@ -35,8 +49,13 @@ export const mongoDbApi = createApi({
 export const selectIsGlobalLoading = createSelector(
     (state) => state[mongoDbApi.reducerPath],
     (apiState) =>
-      Object.values(apiState.queries).some((query: any) => query?.status === "pending") ||
-      Object.values(apiState.mutations).some((mutation: any) => mutation?.status === "pending")
-  );
+        Object.values(apiState.queries).some((query: any) => query?.status === "pending") ||
+        Object.values(apiState.mutations).some((mutation: any) => mutation?.status === "pending")
+);
 
-  export const { useGetAllScenesQuery, useAddNewSceneMutation, useDeleteSceneMutation } = mongoDbApi;
+export const {
+    useGetAllScenesQuery,
+    useAddNewSceneMutation,
+    useDeleteSceneMutation,
+    useUpdateSceneMutation
+} = mongoDbApi;
