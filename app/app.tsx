@@ -54,7 +54,6 @@ const App: React.FC = () => {
 
 const styles = StyleSheet.create({
     view: {
-        position: 'relative',
         height: '100%',
     },
     selectViewContainer: {

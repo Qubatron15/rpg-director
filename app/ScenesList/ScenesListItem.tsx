@@ -39,9 +39,8 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
 
     const handleDeleteScene = useCallback(async () => {
         try {
-            // TODO - spinner is not visible when loading
             await requestDeleteScene(sceneData.id).unwrap();
-            dispatch(deleteScene(sceneData));
+            dispatch(deleteScene(sceneData)); // TODO - use extrareducers here or sht without running it separately
         } catch (error) {
             console.error("Failed to delete scene:", error);
         }

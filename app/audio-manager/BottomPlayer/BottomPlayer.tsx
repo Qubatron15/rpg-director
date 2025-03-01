@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { StyleSheet } from "react-native";
-import { IconButton, MD3Colors, Surface, Text } from "react-native-paper";
+import { IconButton, MD3Colors, Modal, Portal, Surface, Text } from "react-native-paper";
 
 const BottomPlayer: React.FC = () => {
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const showModal = useCallback(() => setModalVisible(true), []);
+    const hideModal = useCallback(() => setModalVisible(false), []);
+
     return (
         <Surface
             style={styles.container}
@@ -40,8 +45,17 @@ const BottomPlayer: React.FC = () => {
                 iconColor={MD3Colors.neutralVariant30}
                 containerColor={MD3Colors.secondary90}
                 size={45}
-                onPress={() => console.log('Pressed')}
+                onPress={showModal}
             />
+
+            <Portal>
+                <Modal
+                    visible={modalVisible}
+                    onDismiss={hideModal}
+                    contentContainerStyle={styles.modalContainer}>
+                    <Text>Example Modal.  Click outside this area to dismiss.</Text>
+                </Modal>
+            </Portal>
         </Surface>
     )
 }
@@ -59,6 +73,11 @@ const styles = StyleSheet.create({
     },
     songTitle: {
         width: '30%',
+    },
+    modalContainer: {
+        backgroundColor: 'white',
+        padding: 20,
+        margin: 20
     }
 });
 
