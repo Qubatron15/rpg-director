@@ -22,6 +22,7 @@ const App: React.FC = () => {
 
     const handleAddScene = useCallback(() => navigation.navigate('AddSceneForm/AddSceneForm', {}), [])
 
+    // TODO - consider changing bottomnavigation to segmented buttons
     return (
         <View style={styles.view}>
             <BottomNavigation

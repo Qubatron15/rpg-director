@@ -11,7 +11,10 @@ const Index = () => {
   const dispatch = useDispatch();
   const { data, error, isLoading } = useGetAllScenesQuery(''); // TODO - add error handling here
 
-  useEffect(() => { dispatch(initScenesList(data?.data ?? [])); }, [isLoading]);
+  useEffect(() => { 
+    console.log('INITTTTT');
+    dispatch(initScenesList(data?.data ?? []));
+  }, [isLoading]);
 
   return (
     <View style={styles.view}>
