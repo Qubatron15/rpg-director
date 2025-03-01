@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { getAllScenes, SceneData } from '../store/slices/scenesListSlice';
 import ScenesListItem from './ScenesListItem';
 
+// TODO - possibly component to remove
 const ScenesList: React.FC = () => {
   const scenesList: SceneData[] = useSelector(getAllScenes);
 

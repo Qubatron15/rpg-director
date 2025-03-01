@@ -19,32 +19,32 @@ const BottomPlayer: React.FC = () => {
             <IconButton
                 icon="volume-minus"
                 mode='contained'
-                iconColor={MD3Colors.neutralVariant30}
-                containerColor={MD3Colors.secondary90}
+                iconColor={MD3Colors.primary0}
+                containerColor={MD3Colors.primary90}
                 size={35}
                 onPress={() => console.log('Pressed')}
             />
             <IconButton
                 icon="volume-plus"
                 mode='contained'
-                iconColor={MD3Colors.neutralVariant30}
-                containerColor={MD3Colors.secondary90}
+                iconColor={MD3Colors.primary0}
+                containerColor={MD3Colors.primary90}
                 size={35}
                 onPress={() => console.log('Pressed')}
             />
             <IconButton
                 icon="pause"
                 mode='contained'
-                iconColor={MD3Colors.primary0}
-                containerColor={MD3Colors.primary90}
+                iconColor={MD3Colors.primary100}
+                containerColor={MD3Colors.primary60}
                 size={50}
                 onPress={() => console.log('Pressed')}
             />
             <IconButton
                 icon="playlist-music"
                 mode='contained'
-                iconColor={MD3Colors.neutralVariant30}
-                containerColor={MD3Colors.secondary90}
+                iconColor={MD3Colors.primary0}
+                containerColor={MD3Colors.primary90}
                 size={45}
                 onPress={showModal}
             />
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
         width: '30%',
     },
     modalContainer: {
+        height: '80%',
         backgroundColor: 'white',
         padding: 20,
         margin: 20

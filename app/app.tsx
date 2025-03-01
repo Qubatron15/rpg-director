@@ -16,7 +16,7 @@ const App: React.FC = () => {
     return (
         <View style={styles.view}>
             <View style={styles.selectViewContainer}>
-                <Text variant="titleSmall">Select view:</Text>
+                <Text variant="labelLarge">Select view:</Text>
                 <SegmentedButtons
                     style={styles.segmentedButtons}
                     value={selectedView}
