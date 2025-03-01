@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { StyleSheet } from "react-native";
 import { IconButton, MD3Colors, Modal, Portal, Surface, Text } from "react-native-paper";
+import ModalPlaylist from "../ModalPlaylist/ModalPlaylist";
 
 const BottomPlayer: React.FC = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -53,7 +54,7 @@ const BottomPlayer: React.FC = () => {
                     visible={modalVisible}
                     onDismiss={hideModal}
                     contentContainerStyle={styles.modalContainer}>
-                    <Text>Example Modal.  Click outside this area to dismiss.</Text>
+                    <ModalPlaylist />
                 </Modal>
             </Portal>
         </Surface>
