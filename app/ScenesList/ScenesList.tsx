@@ -9,20 +9,15 @@ const ScenesList: React.FC = () => {
 
   return (
     <ScrollView>
-      <List.Accordion
-        title="Uncontrolled Accordion - working?"
-        left={props => <List.Icon {...props} icon="folder" />}
-        expanded={true}>
-        {
-          scenesList.map(scene => (
-            <List.Item
-              title={<ScenesListItem sceneData={scene} />}
-              key={scene.id}
-              left={() => <List.Icon icon="terrain" />}
-            />
-          ))
-        }
-      </List.Accordion>
+      {
+        scenesList.map(scene => (
+          <List.Item
+            title={<ScenesListItem sceneData={scene} />}
+            key={scene.id}
+            left={() => <List.Icon icon="terrain" />}
+          />
+        ))
+      }
     </ScrollView>
   );
 }

@@ -6,6 +6,7 @@ import { initScenesList } from './store/slices/scenesListSlice';
 import { useGetAllScenesQuery } from './store/slices/apiSlice';
 import { View, StyleSheet } from 'react-native';
 import LoaderIndicator from './LoaderIndicator';
+import BottomPlayer from './audio-manager/BottomPlayer/BottomPlayer';
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const Index = () => {
     <View style={styles.view}>
       { !isLoading && <LoaderIndicator /> }
       {isLoading ? <ActivityIndicator size="large" animating={true} style={styles.spinner}/> : <App />}
+      <BottomPlayer />
     </View>
   );
 };
