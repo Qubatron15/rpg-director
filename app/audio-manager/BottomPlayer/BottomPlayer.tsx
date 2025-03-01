@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { IconButton, MD3Colors, Surface, Text } from "react-native-paper";
 
 const BottomPlayer: React.FC = () => {
@@ -48,8 +48,6 @@ const BottomPlayer: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        bottom: 0,
         width: '100%',
 
         display: 'flex',

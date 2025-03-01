@@ -21,7 +21,6 @@ const Index = () => {
     <View style={styles.view}>
       { !isLoading && <LoaderIndicator /> }
       {isLoading ? <ActivityIndicator size="large" animating={true} style={styles.spinner}/> : <App />}
-      <BottomPlayer />
     </View>
   );
 };

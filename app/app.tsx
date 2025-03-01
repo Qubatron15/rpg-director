@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { FAB, SegmentedButtons, Text } from 'react-native-paper';
 import ScenesList from './ScenesList/ScenesList';
 import ScenesMap from './ScenesMap/ScenesMap';
+import BottomPlayer from './audio-manager/BottomPlayer/BottomPlayer';
 
 const App: React.FC = () => {
     const navigation = useNavigation();
@@ -46,6 +47,7 @@ const App: React.FC = () => {
                 icon="plus"
                 onPress={handleAddScene}
             />
+            <BottomPlayer />
         </View>
     );
 }
