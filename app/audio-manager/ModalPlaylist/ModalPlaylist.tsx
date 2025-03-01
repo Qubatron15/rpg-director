@@ -41,6 +41,14 @@ const ModalPlaylist: React.FC = () => {
                         left={props => <List.Icon {...props} icon="folder" />}
                         expanded={soundsExpanded}
                         onPress={handlePressSounds}>
+                        <List.Item title={() => <Button
+                            icon="plus"
+                            mode="contained"
+                            // buttonColor={MD3Colors.primary90}
+                            // textColor={MD3Colors.primary0}
+                            onPress={() => console.log('Pressed')}>
+                            Add new sound
+                        </Button>} />
                         {sounds.map(item => (
                             <List.Item title={() => <Button
                                 icon="play"
@@ -62,6 +70,13 @@ const ModalPlaylist: React.FC = () => {
                         left={props => <List.Icon {...props} icon="folder" />}
                         expanded={musicExpanded}
                         onPress={handlePressMusic}>
+                        <List.Item title={() => <Button
+                            icon="plus"
+                            mode="contained"
+                            disabled={true}
+                            onPress={() => console.log('Pressed')}>
+                            Add music by editing scene data
+                        </Button>} />
                         {music.map(item => (
                             <List.Item title={() => <Button
                                 icon="play"
