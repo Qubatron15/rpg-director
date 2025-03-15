@@ -13,7 +13,7 @@ const ViewScene: React.FC = () => {
   const route = useRoute();
   const sceneId = (route.params as { sceneId: string }).sceneId;
 
-  const selectedSceneData = useSelector((state: RootState[]) => getSceneById(state, sceneId));
+  const selectedSceneData = useSelector((state: RootState) => getSceneById(state, sceneId));
 
   useEffect(() => {
     if (!selectedSceneData) {

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query'
 import scenesListSlice from './slices/scenesListSlice';
+import audioSlice from './slices/audioSlice';
 import { mongoDbApi } from './slices/apiSlice';
 
 export const store = configureStore({
   reducer: {
     scenesList: scenesListSlice,
+    audio: audioSlice,
     [mongoDbApi.reducerPath]: mongoDbApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
