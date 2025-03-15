@@ -2,32 +2,54 @@ import React, { useCallback, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, List, MD3Colors, Text } from 'react-native-paper';
 import PlaylistItem from './PlaylistItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/app/store/store';
+import { pauseAudio, playAudio, stopAudio } from '@/app/store/slices/audioSlice';
+import * as audioService from '../audio-service';
+
+interface PlaylistItem {
+    name: string;
+    uri: string;
+}
 
 const ModalPlaylist: React.FC = () => {
-    const [soundsExpanded, setSoundsExpanded] = useState(true);
-    const [musicExpanded, setMusicExpanded] = useState(false);
+    const dispatch = useDispatch();
+    const { isPlaying, soundUri } = useSelector((state: RootState) => state.audio);
 
-    const handlePressSounds = () => setSoundsExpanded(!soundsExpanded);
+    const [musicExpanded, setMusicExpanded] = useState(true);
+
     const handlePressMusic = () => setMusicExpanded(!musicExpanded);
 
-    const sounds = ['fart', 'my custom sound', 'other sound', 'alert'];
-    const music = [
-        'Titanic',
-        'Attic',
-        'Polio',
-        'Titanic',
-        'Attic',
-        'Polio',
-        'Titanic',
-        'Attic',
-        'Polio',
-        'Titanic',
-        'Attic',
-        'Polio',
-        'Titanic',
-        'Attic',
-        'Polio',
+    const music: PlaylistItem[] = [
+        {
+            name: 'Titanic',
+            uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+        },
+        {
+            name: 'Attic',
+            uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
+        },
+        {
+            name: 'Polio',
+            uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
+        }
     ]
+
+    const handlePlay = useCallback(async (uri: string) => {
+        dispatch(playAudio(uri));
+        await audioService.playSound(uri);
+    }, []);
+
+    const handlePause = useCallback(async () => {
+        dispatch(pauseAudio());
+        await audioService.pauseSound();
+    }, []);
+
+    const handleStop = useCallback(async () => {
+        dispatch(stopAudio());
+        await audioService.stopSound();
+    }, []);
+
     return (
         <View style={styles.container}>
             <Text
@@ -35,35 +57,6 @@ const ModalPlaylist: React.FC = () => {
                 variant="headlineMedium">Sounds library</Text>
             <ScrollView>
                 <List.Section>
-                    <List.Accordion
-                        title="Sounds"
-                        description="Select sound to play independent from music"
-                        left={props => <List.Icon {...props} icon="folder" />}
-                        expanded={soundsExpanded}
-                        onPress={handlePressSounds}>
-                        <List.Item title={() => <Button
-                            icon="plus"
-                            mode="contained"
-                            // buttonColor={MD3Colors.primary90}
-                            // textColor={MD3Colors.primary0}
-                            onPress={() => console.log('Pressed')}>
-                            Add new sound
-                        </Button>} />
-                        {sounds.map(item => (
-                            <List.Item title={() => <Button
-                                icon="play"
-                                mode="contained"
-                                buttonColor={MD3Colors.primary90}
-                                textColor={MD3Colors.primary0}
-                                onPress={() => console.log('Pressed')}>
-                                {item}
-                            </Button>} />
-                        ))}
-
-                        {/* <List.Item title={PlaylistItem} />
-                        <List.Item title={PlaylistItem} />
-                        <List.Item title={PlaylistItem} /> */}
-                    </List.Accordion>
                     <List.Accordion
                         title="Scenes music"
                         description="Select music to play for particular scene (only one at a time)"
@@ -77,16 +70,21 @@ const ModalPlaylist: React.FC = () => {
                             onPress={() => console.log('Pressed')}>
                             Add music by editing scene data
                         </Button>} />
-                        {music.map(item => (
-                            <List.Item title={() => <Button
-                                icon="play"
-                                mode="contained"
-                                buttonColor={MD3Colors.primary90}
-                                textColor={MD3Colors.primary0}
-                                onPress={() => console.log('Pressed')}>
-                                {item}
-                            </Button>} />
-                        ))}
+                        {music.map(item => {
+                            const isItemPlaying = isPlaying && soundUri === item.uri;
+
+                            return (<List.Item
+                                key={item.uri}
+                                title={() => <Button
+                                    icon={isItemPlaying ? 'pause' : 'play'}
+                                    mode="contained"
+                                    buttonColor={MD3Colors.primary90}
+                                    textColor={MD3Colors.primary0}
+                                    onPress={() => isItemPlaying ? handlePause() : handlePlay(item.uri)}>
+                                    {item.name}
+                                </Button>} />
+                            )
+                        })}
                     </List.Accordion>
                 </List.Section>
             </ScrollView>
