@@ -2,12 +2,48 @@ import React, { useCallback, useState } from "react";
 import { StyleSheet } from "react-native";
 import { IconButton, MD3Colors, Modal, Portal, Surface, Text } from "react-native-paper";
 import ModalPlaylist from "../ModalPlaylist/ModalPlaylist";
+import { Audio, Video } from 'expo-av';
 
 const BottomPlayer: React.FC = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const showModal = useCallback(() => setModalVisible(true), []);
     const hideModal = useCallback(() => setModalVisible(false), []);
+
+    const [sound, setSound] = useState<any>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+  
+    // Funkcja do odtwarzania dźwięku
+    async function playSound() {
+      if (!sound) {
+        const { sound: newSound } = await Audio.Sound.createAsync(
+          { uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+          { shouldPlay: true }
+        );
+        setSound(newSound);
+        setIsPlaying(true);
+      } else {
+        await sound.playAsync();
+        setIsPlaying(true);
+      }
+    }
+  
+    // Funkcja do pauzowania dźwięku
+    async function pauseSound() {
+      if (sound) {
+        await sound.pauseAsync();
+        setIsPlaying(false);
+      }
+    }
+  
+    // Zwolnienie zasobów
+    async function unloadSound() {
+      if (sound) {
+        await sound.unloadAsync();
+        setSound(null);
+        setIsPlaying(false);
+      }
+    }
 
     return (
         <Surface
@@ -33,12 +69,12 @@ const BottomPlayer: React.FC = () => {
                 onPress={() => console.log('Pressed')}
             />
             <IconButton
-                icon="pause"
+                icon={isPlaying ? 'pause' : 'play'}
                 mode='contained'
                 iconColor={MD3Colors.primary100}
                 containerColor={MD3Colors.primary60}
                 size={50}
-                onPress={() => console.log('Pressed')}
+                onPress={isPlaying ? pauseSound : playSound}
             />
             <IconButton
                 icon="playlist-music"
