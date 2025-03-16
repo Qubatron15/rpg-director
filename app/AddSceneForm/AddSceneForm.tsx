@@ -21,7 +21,8 @@ const AddSceneForm: React.FC = () => {
 
   const [formValues, setFormValues] = useState({
     sceneName: selectedSceneData?.name ?? '',
-    sceneDescription: selectedSceneData?.description ?? ''
+    sceneDescription: selectedSceneData?.description ?? '',
+    sceneSoundtrack: selectedSceneData?.soundtrack ?? ''
   });
   const [formDirty, setFormDirty] = useState(false);
   const [formValid, setFormValid] = useState(false);
@@ -48,7 +49,8 @@ const AddSceneForm: React.FC = () => {
     const formSceneData = {
       id: selectedSceneData?.id,
       name: formValues.sceneName,
-      description: formValues.sceneDescription
+      description: formValues.sceneDescription,
+      soundtrack: formValues.sceneSoundtrack
     };
 
     try {
@@ -58,12 +60,14 @@ const AddSceneForm: React.FC = () => {
         result = await requestUpdateScene({
           id: selectedSceneData.id,
           name: formSceneData.name,
-          description: formSceneData.description
+          description: formSceneData.description,
+          soundtrack: formSceneData.soundtrack
         })
       } else {
         result = await requestAddNewScene({
           name: formSceneData.name,
-          description: formSceneData.description
+          description: formSceneData.description,
+          soundtrack: formSceneData.soundtrack
         }).unwrap();
 
         // dispatch(addScene(result.data));
@@ -75,6 +79,7 @@ const AddSceneForm: React.FC = () => {
       setFormValues({
         sceneName: '',
         sceneDescription: '',
+        sceneSoundtrack: '',
       });
       setFormDirty(false);
       navigation.goBack();
@@ -104,6 +109,12 @@ const AddSceneForm: React.FC = () => {
           onChangeText={text => handleTextChange('sceneDescription', text)}
           mode="outlined"
           multiline={true}
+        />
+        <TextInput
+          label="Soundtrack"
+          value={formValues.sceneSoundtrack}
+          onChangeText={text => handleTextChange('sceneSoundtrack', text)}
+          mode="outlined"
         />
         <Button
           icon="camera"

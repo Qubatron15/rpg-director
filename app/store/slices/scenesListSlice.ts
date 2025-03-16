@@ -4,6 +4,7 @@ export interface SceneData {
   id: string;
   name: string;
   description?: string;
+  soundtrack?: string;
 }
 
 const initialState: SceneData[] = [];
