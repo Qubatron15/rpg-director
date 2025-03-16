@@ -6,34 +6,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store/store';
 import { pauseAudio, playAudio, stopAudio } from '@/app/store/slices/audioSlice';
 import * as audioService from '../audio-service';
+import { getAllScenes, SceneData } from '@/app/store/slices/scenesListSlice';
 
 interface PlaylistItem {
+    sceneId: string;
     name: string;
     uri: string;
 }
 
 const ModalPlaylist: React.FC = () => {
+    // TODO - here to use a dedicated selector which returns only some fields
+    const scenesList: SceneData[] = useSelector(getAllScenes);
+    const music: PlaylistItem[] = scenesList
+        .map(scene => ({
+            sceneId: scene.id,
+            name: scene.name,
+            uri: scene.soundtrack ?? ''
+        }))
+        .filter(item => item.uri);
+
     const dispatch = useDispatch();
     const { isPlaying, soundUri } = useSelector((state: RootState) => state.audio);
 
     const [musicExpanded, setMusicExpanded] = useState(true);
 
     const handlePressMusic = () => setMusicExpanded(!musicExpanded);
-
-    const music: PlaylistItem[] = [
-        {
-            name: 'Titanic',
-            uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
-        },
-        {
-            name: 'Attic',
-            uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
-        },
-        {
-            name: 'Polio',
-            uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
-        }
-    ]
 
     const handlePlay = async (uri: string) => {
         const resumePlay = uri === soundUri;
@@ -75,7 +72,7 @@ const ModalPlaylist: React.FC = () => {
                             const isItemPlaying = isPlaying && soundUri === item.uri;
 
                             return (<List.Item
-                                key={item.uri}
+                                key={item.sceneId}
                                 title={() => <Button
                                     icon={isItemPlaying ? 'pause' : 'play'}
                                     mode="contained"
