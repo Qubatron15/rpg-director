@@ -6,7 +6,7 @@ import { Audio, Video } from 'expo-av';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { pauseAudio, playAudio, stopAudio } from "@/app/store/slices/audioSlice";
-import { pauseSound, playSound, stopSound } from "../audio-service";
+import * as audioService from "../audio-service";
 
 const BottomPlayer: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,55 +18,19 @@ const BottomPlayer: React.FC = () => {
   const hideModal = useCallback(() => setModalVisible(false), []);
 
   const handlePlay = async () => {
-    const uri = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-    dispatch(playAudio(uri));
-    await playSound(uri);
+    dispatch(playAudio(soundUri));
+    await audioService.playSound(soundUri, true);
   };
 
   const handlePause = async () => {
     dispatch(pauseAudio());
-    await pauseSound();
+    await audioService.pauseSound();
   };
 
   const handleStop = async () => {
     dispatch(stopAudio());
-    await stopSound();
+    await audioService.stopSound();
   };
-
-  // const [sound, setSound] = useState<any>(null);
-  // const [isPlaying, setIsPlaying] = useState(false);
-
-  // // Funkcja do odtwarzania dźwięku
-  // async function playSound() {
-  //   if (!sound) {
-  //     const { sound: newSound } = await Audio.Sound.createAsync(
-  //       { uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
-  //       { shouldPlay: true }
-  //     );
-  //     setSound(newSound);
-  //     setIsPlaying(true);
-  //   } else {
-  //     await sound.playAsync();
-  //     setIsPlaying(true);
-  //   }
-  // }
-
-  // // Funkcja do pauzowania dźwięku
-  // async function pauseSound() {
-  //   if (sound) {
-  //     await sound.pauseAsync();
-  //     setIsPlaying(false);
-  //   }
-  // }
-
-  // // Zwolnienie zasobów
-  // async function unloadSound() {
-  //   if (sound) {
-  //     await sound.unloadAsync();
-  //     setSound(null);
-  //     setIsPlaying(false);
-  //   }
-  // }
 
   return (
     <Surface

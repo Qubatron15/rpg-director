@@ -15,8 +15,9 @@ const audioSlice = createSlice({
   initialState,
   reducers: {
     playAudio: (state, action) => {
-      state.soundUri = action.payload;
-      state.isPlaying = true;
+      const soundUri = action.payload
+      state.soundUri = soundUri;
+      state.isPlaying = !!soundUri;
     },
     pauseAudio: (state) => {
       state.isPlaying = false;

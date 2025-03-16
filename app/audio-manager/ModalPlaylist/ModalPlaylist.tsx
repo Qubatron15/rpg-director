@@ -35,10 +35,11 @@ const ModalPlaylist: React.FC = () => {
         }
     ]
 
-    const handlePlay = useCallback(async (uri: string) => {
+    const handlePlay = async (uri: string) => {
+        const resumePlay = uri === soundUri;
         dispatch(playAudio(uri));
-        await audioService.playSound(uri);
-    }, []);
+        await audioService.playSound(uri, resumePlay);
+    };
 
     const handlePause = useCallback(async () => {
         dispatch(pauseAudio());
