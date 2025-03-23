@@ -66,3 +66,5 @@ Join our community of developers creating universal apps.
 - new form to add sounds (not soundtrack)
 - badge in  playlist icon if sound/soundtrack is playing
 - placeholder image for scenes not having it
+- confirmation dialog when deleting the scene
+- adding m,usic files from phone local storage
