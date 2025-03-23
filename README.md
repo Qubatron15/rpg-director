@@ -48,3 +48,16 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## TODO
+- error handling
+- any success action toast
+- music title in bottom player
+- volume up/down
+- separate library for additional sounds
+- tiles view
+- map view
+- items list for every of the scenec
+- ...and make it checkable
+- session PIN code so couple sessions can be saved here
+- scene list tiles with images

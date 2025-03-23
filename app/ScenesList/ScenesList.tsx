@@ -15,7 +15,7 @@ const ScenesList: React.FC = () => {
           <List.Item
             title={<ScenesListItem sceneData={scene} />}
             key={scene.id}
-            left={() => <List.Icon icon="terrain" />}
+            // left={() => <List.Icon icon="terrain" />}
           />
         ))
       }

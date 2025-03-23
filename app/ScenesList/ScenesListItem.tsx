@@ -51,7 +51,11 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
             <Menu
                 visible={menuVisible}
                 onDismiss={handleCloseMenu}
-                anchor={<Pressable onPress={handleViewScene} onLongPress={handleOpenMenu}><SceneTile sceneData={sceneData} /></Pressable>}
+                anchor={
+                    <Pressable onPress={handleViewScene} onLongPress={handleOpenMenu}>
+                        <SceneTile sceneData={sceneData} />
+                    </Pressable>
+                }
             >
 
                 <Menu.Item onPress={handleViewScene} title="View" />

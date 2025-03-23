@@ -4,8 +4,6 @@ import { Sound } from 'expo-av/build/Audio';
 let soundObject: Sound | null = null;
 
 export const playSound = async (uri: string, resumePlay: boolean) => {
-  console.log('resumePlay', resumePlay);
-
   if (!uri) return;
 
   if (!resumePlay) {
