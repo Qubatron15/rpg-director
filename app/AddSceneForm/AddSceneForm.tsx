@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, Image } from 'react-native';
 import { Button, HelperText, TextInput, Text, IconButton, MD3Colors, Menu, Surface } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { addScene, getSceneById, SceneData } from '../store/slices/scenesListSlice';
@@ -8,6 +8,7 @@ import { useAddNewSceneMutation, useGetAllScenesQuery, useUpdateSceneMutation } 
 import { RootState } from '../store/store';
 import LoaderIndicator from '../LoaderIndicator';
 import * as ImagePicker from 'expo-image-picker';
+import RNFS from 'react-native-fs';
 
 const AddSceneForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const AddSceneForm: React.FC = () => {
   const [formDirty, setFormDirty] = useState(false);
   const [formValid, setFormValid] = useState(false);
   const [addImageMenuVisible, setAddImageMenuVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   const [requestAddNewScene, addSceneQuery] = useAddNewSceneMutation();
   const [requestUpdateScene, updateSceneQuery] = useUpdateSceneMutation();
@@ -47,6 +49,16 @@ const AddSceneForm: React.FC = () => {
       }
     })();
   }, []);
+
+  // const convertImageToBase64 = (async (imagePath: string): Promise<string | null> => {
+  //   try {
+  //     const base64 = await RNFS.readFile(imagePath, 'base64');
+  //     return base64;
+  //   } catch (error) {
+  //     console.error('Error converting image to base64:', error);
+  //     return null;
+  //   }
+  // };
 
   const handleOpenMenu = useCallback(() => {
     setAddImageMenuVisible(true);
@@ -77,7 +89,7 @@ const AddSceneForm: React.FC = () => {
     console.log(result);
 
     if (!result.canceled) {
-      console.log('IMAGE IRI: ', result.assets[0].uri);
+      setSelectedImage(result.assets[0].uri);
     }
   }, []);
 
@@ -85,12 +97,12 @@ const AddSceneForm: React.FC = () => {
     handleCloseMenu();
 
     const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true, // Enables built-in cropping
-      quality: 1, // Highest quality
+      allowsEditing: true,
+      quality: 1,
     });
 
     if (!result.canceled) {
-      console.log('CAMERA', result.assets[0].uri); // Store the image URI
+      setSelectedImage(result.assets[0].uri);
     }
   };
 
@@ -143,14 +155,25 @@ const AddSceneForm: React.FC = () => {
       <LoaderIndicator />
 
       <Surface style={styles.banner} elevation={4}>
+        <Image
+          style={styles.sceneImage}
+          source={{ uri: selectedImage }}></Image>
+
+        <Text
+          style={styles.sceneTitle}
+          variant="headlineMedium"
+          numberOfLines={3}>
+          {`${selectedSceneData ? 'Update' : 'Add'} ${formValues.sceneName || 'new'} scene`}
+        </Text>
         <Menu
+
           visible={addImageMenuVisible}
           onDismiss={handleCloseMenu}
           anchor={
             <IconButton
               icon="plus"
               iconColor={MD3Colors.primary50}
-              containerColor={MD3Colors.error50}
+              containerColor="rgba(0, 0, 0, 0.75)"
               style={styles.addImageButton}
               size={50}
               onPress={handleOpenMenu}
@@ -160,12 +183,7 @@ const AddSceneForm: React.FC = () => {
 
           <Menu.Item onPress={handleAddImageFromGallery} title="View" />
           <Menu.Item onPress={handleTakePhoto} title="Edit" />
-
         </Menu>
-
-        <Text style={styles.sceneTitle}>
-          {`${selectedSceneData ? 'Update' : 'Add'} ${formValues.sceneName || 'new'} scene`}
-        </Text>
       </Surface>
 
       <View style={styles.form}>
@@ -216,27 +234,32 @@ const styles = StyleSheet.create({
   banner: {
     width: '100%',
     height: '20%',
-    minHeight: 50,
-    backgroundColor: 'red',
+    minHeight: 190,
+
     position: 'relative',
+
     display: 'flex',
-    alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'center'
+    alignItems: 'flex-end',
+    justifyContent: 'space-between'
+  },
+  sceneImage: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    left: 0,
+    top: 0,
   },
   addImageButton: {
-    // height: '100%'
-    // position: 'absolute',
-    // right: 20,
-    // bottom: 20
+    margin: 20
   },
   sceneTitle: {
-    position: 'absolute',
-    color: 'white',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    margin: 20,
+    color: MD3Colors.primary100,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
     padding: 10,
-    bottom: 20,
-    left: 20
+    zIndex: 50,
+    maxWidth: '60%'
   },
   button: {
     margin: '10%',
