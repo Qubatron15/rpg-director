@@ -2,13 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { View, StyleSheet, Alert, Image } from 'react-native';
 import { Button, HelperText, TextInput, Text, IconButton, MD3Colors, Menu, Surface } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { addScene, getSceneById, SceneData } from '../store/slices/scenesListSlice';
+import { getSceneById, SceneData } from '../store/slices/scenesListSlice';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useAddNewSceneMutation, useGetAllScenesQuery, useUpdateSceneMutation } from '../store/slices/apiSlice';
+import { useAddNewSceneMutation, useUpdateSceneMutation } from '../store/slices/apiSlice';
 import { RootState } from '../store/store';
 import LoaderIndicator from '../LoaderIndicator';
 import * as ImagePicker from 'expo-image-picker';
-import RNFS from 'react-native-fs';
 
 const AddSceneForm: React.FC = () => {
   const dispatch = useDispatch();
