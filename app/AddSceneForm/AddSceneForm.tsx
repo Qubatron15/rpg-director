@@ -49,16 +49,6 @@ const AddSceneForm: React.FC = () => {
     })();
   }, []);
 
-  // const convertImageToBase64 = (async (imagePath: string): Promise<string | null> => {
-  //   try {
-  //     const base64 = await RNFS.readFile(imagePath, 'base64');
-  //     return base64;
-  //   } catch (error) {
-  //     console.error('Error converting image to base64:', error);
-  //     return null;
-  //   }
-  // };
-
   const handleOpenMenu = useCallback(() => {
     setAddImageMenuVisible(true);
   }, []);
@@ -172,7 +162,7 @@ const AddSceneForm: React.FC = () => {
             <IconButton
               icon="plus"
               iconColor={MD3Colors.primary50}
-              containerColor="rgba(0, 0, 0, 0.75)"
+              containerColor="rgba(0, 0, 0, 0.6)"
               style={styles.addImageButton}
               size={50}
               onPress={handleOpenMenu}
@@ -180,8 +170,14 @@ const AddSceneForm: React.FC = () => {
           }
         >
 
-          <Menu.Item onPress={handleAddImageFromGallery} title="View" />
-          <Menu.Item onPress={handleTakePhoto} title="Edit" />
+          <Menu.Item
+            onPress={handleAddImageFromGallery}
+            leadingIcon="image"
+            title="From gallery" />
+          <Menu.Item
+            onPress={handleTakePhoto}
+            leadingIcon="camera"
+            title="From camera" />
         </Menu>
       </Surface>
 
@@ -255,7 +251,7 @@ const styles = StyleSheet.create({
   sceneTitle: {
     margin: 20,
     color: MD3Colors.primary100,
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     padding: 10,
     zIndex: 50,
     maxWidth: '60%'
