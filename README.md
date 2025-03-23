@@ -61,3 +61,8 @@ Join our community of developers creating universal apps.
 - ...and make it checkable
 - session PIN code so couple sessions can be saved here
 - scene list tiles with images
+- saving tiles images as base64 in DB
+- map position properties in DB documents for scenes
+- new form to add sounds (not soundtrack)
+- badge in  playlist icon if sound/soundtrack is playing
+- placeholder image for scenes not having it
