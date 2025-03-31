@@ -5,6 +5,7 @@ export interface SceneData {
   name: string;
   description?: string;
   soundtrack?: string;
+  image?: Base64URLString;
 }
 
 const initialState: SceneData[] = [];

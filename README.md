@@ -68,3 +68,4 @@ Join our community of developers creating universal apps.
 - placeholder image for scenes not having it
 - confirmation dialog when deleting the scene
 - adding m,usic files from phone local storage
+- copy scene

@@ -19,27 +19,42 @@ const AddSceneForm: React.FC = () => {
   if (sceneId) {
     selectedSceneData = useSelector((state: RootState[]) => getSceneById(state, sceneId));
   }
+  console.log('selectedSceneData', selectedSceneData);
 
   const [formValues, setFormValues] = useState({
-    sceneName: selectedSceneData?.name ?? '',
-    sceneDescription: selectedSceneData?.description ?? '',
-    sceneSoundtrack: selectedSceneData?.soundtrack ?? ''
+    sceneName: '',
+    sceneDescription: '',
+    sceneSoundtrack: '',
+    image: '',
   });
   const [formDirty, setFormDirty] = useState(false);
   const [formValid, setFormValid] = useState(false);
   const [addImageMenuVisible, setAddImageMenuVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState<string>('');
+  // setSelectedImage(selectedSceneData?.image ?? '')
 
   const [requestAddNewScene, addSceneQuery] = useAddNewSceneMutation();
   const [requestUpdateScene, updateSceneQuery] = useUpdateSceneMutation();
   // const [requestAddNewScene, { isLoading }] = selectedSceneData ? useUpdateSceneMutation() : useAddNewSceneMutation();
 
+  // rendering the first loaded image
+  useEffect(() => {
+    setSelectedImage(selectedSceneData?.image ?? '');
+    setFormValues({
+      sceneName: selectedSceneData?.name ?? '',
+      sceneDescription: selectedSceneData?.description ?? '',
+      sceneSoundtrack: selectedSceneData?.soundtrack ?? '',
+      image: selectedSceneData?.image ?? ''
+    })
+  }, [selectedSceneData])
 
+  // setting the form validity
   useEffect(
     () => setFormValid(!!(formDirty && formValues.sceneName && !addSceneQuery.isLoading && !updateSceneQuery.isLoading)),
     [formDirty, formValues, addSceneQuery, updateSceneQuery]
   );
 
+  // checking the camera permissions
   useEffect(() => {
     (async () => {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -77,9 +92,14 @@ const AddSceneForm: React.FC = () => {
 
     console.log(result);
 
-    if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-    }
+    if (result.canceled) return;
+
+    setSelectedImage(result.assets[0].uri);
+    setFormValues(prevState => ({
+      ...prevState,
+      image: selectedImage,
+    }));
+    setFormDirty(true);
   }, []);
 
   const handleTakePhoto = async () => {
@@ -90,9 +110,14 @@ const AddSceneForm: React.FC = () => {
       quality: 1,
     });
 
-    if (!result.canceled) {
+    if (result.canceled) return;
+
       setSelectedImage(result.assets[0].uri);
-    }
+    setFormValues(prevState => ({
+      ...prevState,
+      image: selectedImage,
+    }));
+    setFormDirty(true);
   };
 
   const handleFormSubmit = useCallback(async () => {
@@ -100,7 +125,7 @@ const AddSceneForm: React.FC = () => {
       id: selectedSceneData?.id,
       name: formValues.sceneName,
       description: formValues.sceneDescription,
-      soundtrack: formValues.sceneSoundtrack
+      soundtrack: formValues.sceneSoundtrack,
     };
 
     try {
@@ -161,8 +186,8 @@ const AddSceneForm: React.FC = () => {
           anchor={
             <IconButton
               icon="plus"
-              iconColor={MD3Colors.primary50}
-              containerColor="rgba(0, 0, 0, 0.6)"
+              iconColor={MD3Colors.primary100}
+              containerColor="rgba(0, 0, 0, 0.65)"
               style={styles.addImageButton}
               size={50}
               onPress={handleOpenMenu}
@@ -251,7 +276,7 @@ const styles = StyleSheet.create({
   sceneTitle: {
     margin: 20,
     color: MD3Colors.primary100,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: 'rgba(0, 0, 0, .65)',
     padding: 10,
     zIndex: 50,
     maxWidth: '60%'
