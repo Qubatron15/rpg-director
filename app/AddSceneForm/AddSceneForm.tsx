@@ -19,7 +19,6 @@ const AddSceneForm: React.FC = () => {
   if (sceneId) {
     selectedSceneData = useSelector((state: RootState[]) => getSceneById(state, sceneId));
   }
-  console.log('selectedSceneData', selectedSceneData);
 
   const [formValues, setFormValues] = useState({
     sceneName: '',
@@ -30,8 +29,6 @@ const AddSceneForm: React.FC = () => {
   const [formDirty, setFormDirty] = useState(false);
   const [formValid, setFormValid] = useState(false);
   const [addImageMenuVisible, setAddImageMenuVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string>('');
-  // setSelectedImage(selectedSceneData?.image ?? '')
 
   const [requestAddNewScene, addSceneQuery] = useAddNewSceneMutation();
   const [requestUpdateScene, updateSceneQuery] = useUpdateSceneMutation();
@@ -39,7 +36,6 @@ const AddSceneForm: React.FC = () => {
 
   // rendering the first loaded image
   useEffect(() => {
-    setSelectedImage(selectedSceneData?.image ?? '');
     setFormValues({
       sceneName: selectedSceneData?.name ?? '',
       sceneDescription: selectedSceneData?.description ?? '',
@@ -90,14 +86,11 @@ const AddSceneForm: React.FC = () => {
       quality: 1,
     });
 
-    console.log(result);
-
     if (result.canceled) return;
 
-    setSelectedImage(result.assets[0].uri);
     setFormValues(prevState => ({
       ...prevState,
-      image: selectedImage,
+      image: result.assets[0].uri, // TODO - this has to be transformed to base64 in android
     }));
     setFormDirty(true);
   }, []);
@@ -112,10 +105,9 @@ const AddSceneForm: React.FC = () => {
 
     if (result.canceled) return;
 
-      setSelectedImage(result.assets[0].uri);
     setFormValues(prevState => ({
       ...prevState,
-      image: selectedImage,
+      image: result.assets[0].uri,  // TODO - this has to be transformed to base64 in android
     }));
     setFormDirty(true);
   };
@@ -126,6 +118,7 @@ const AddSceneForm: React.FC = () => {
       name: formValues.sceneName,
       description: formValues.sceneDescription,
       soundtrack: formValues.sceneSoundtrack,
+      image: formValues.image,
     };
 
     try {
@@ -136,13 +129,15 @@ const AddSceneForm: React.FC = () => {
           id: selectedSceneData.id,
           name: formSceneData.name,
           description: formSceneData.description,
-          soundtrack: formSceneData.soundtrack
+          soundtrack: formSceneData.soundtrack,
+          image: formSceneData.image
         })
       } else {
         result = await requestAddNewScene({
           name: formSceneData.name,
           description: formSceneData.description,
-          soundtrack: formSceneData.soundtrack
+          soundtrack: formSceneData.soundtrack,
+          image: formSceneData.image
         }).unwrap();
 
         // dispatch(addScene(result.data));
@@ -155,6 +150,7 @@ const AddSceneForm: React.FC = () => {
         sceneName: '',
         sceneDescription: '',
         sceneSoundtrack: '',
+        image: ''
       });
       setFormDirty(false);
       navigation.goBack();
@@ -171,7 +167,7 @@ const AddSceneForm: React.FC = () => {
       <Surface style={styles.banner} elevation={4}>
         <Image
           style={styles.sceneImage}
-          source={{ uri: selectedImage }}></Image>
+          source={{ uri: formValues.image }}></Image>
 
         <Text
           style={styles.sceneTitle}

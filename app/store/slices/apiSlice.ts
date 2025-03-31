@@ -30,11 +30,12 @@ export const mongoDbApi = createApi({
             })
         }),
         updateScene: builder.mutation({
-            query: ({ id, name, description, soundtrack }: SceneData) => {
+            query: ({ id, name, description, soundtrack, image }: SceneData) => {
                 const body: Omit<SceneData, 'id'> = {
                     name,
                     description,
-                    soundtrack
+                    soundtrack,
+                    image
                 }
                 return {
                     url: `scenes/${id}`,
