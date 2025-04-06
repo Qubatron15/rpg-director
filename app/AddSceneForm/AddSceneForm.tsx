@@ -184,7 +184,7 @@ const AddSceneForm: React.FC = () => {
             <IconButton
               icon="plus"
               iconColor={MD3Colors.primary100}
-              containerColor="rgba(0, 0, 0, .7)"
+              containerColor="rgba(0, 0, 0, .6)"
               style={styles.addImageButton}
               size={50}
               onPress={handleOpenMenu}
@@ -243,7 +243,7 @@ const AddSceneForm: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // FIXME - not fully working
+    flex: 1,
   },
   form: {
     padding: 20,
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   sceneTitle: {
     margin: 20,
     color: MD3Colors.primary100,
-    backgroundColor: 'rgba(0, 0, 0, .7)',
+    backgroundColor: 'rgba(0, 0, 0, .6)',
     padding: 10,
     zIndex: 50,
     maxWidth: '60%'

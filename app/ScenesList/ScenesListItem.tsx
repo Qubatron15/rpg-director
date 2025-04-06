@@ -5,7 +5,7 @@ import { deleteScene, SceneData } from "../store/slices/scenesListSlice";
 import SceneTile from "./SceneTile";
 import { useNavigation } from "expo-router";
 import { useDeleteSceneMutation } from "../store/slices/apiSlice";
-import { Pressable, View } from "react-native";
+import { Pressable, View, StyleSheet } from "react-native";
 
 interface ScenesListItemProps {
     sceneData: SceneData,
@@ -47,7 +47,7 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
     }, []);
 
     return (
-        <View>
+        <View style={styles.tile}>
             <Menu
                 visible={menuVisible}
                 onDismiss={handleCloseMenu}
@@ -67,5 +67,11 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    tile: {
+        width: '100%'
+    }
+});
 
 export default ScenesListItem;
