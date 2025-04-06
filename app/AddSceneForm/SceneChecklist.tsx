@@ -9,31 +9,14 @@ interface SceneChecklistProps {
 }
 
 const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUpdate }: SceneChecklistProps) => {
+    const [formDirty, setFormDirty] = useState<boolean>(false);
     const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
     const [activeItemData, setActiveItemData] = useState<SceneChecklistItemData>({ checked: false, name: '' });
 
-    useEffect(() => {
-        if (activeItemData.name && activeItemIndex !== null) {
-            const updatdChecklist = [...checklistData];
-            updatdChecklist[activeItemIndex] = activeItemData;
-            onItemUpdate(updatdChecklist);
-        }
-
-        if (activeItemIndex === null) {
-            setActiveItemData({ checked: false, name: '' });
-            return;
-        }
-
-        setActiveItemData({
-            checked: checklistData[activeItemIndex].checked,
-            name: checklistData[activeItemIndex].name
-        });
-    }, [activeItemIndex])
-
     const submitItemChange = (newSelectedIndex: number) => {
-        if (activeItemData.name && activeItemIndex !== null) {
+        if (formDirty) {
             const updatdChecklist = [...checklistData];
-            updatdChecklist[activeItemIndex] = activeItemData;
+            updatdChecklist[activeItemIndex!] = activeItemData;
             onItemUpdate(updatdChecklist);
         }
 
@@ -51,10 +34,20 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
     }
 
     const handleNameChange = (newName: string) => {
-        if (!activeItemData) return;
+        setFormDirty(true);
 
         activeItemData.name = newName;
         setActiveItemData({ ...activeItemData });
+    }
+
+    const handleCheckboxChange = (index: number) => {
+        setFormDirty(true);
+
+        const updatdChecklist = [...checklistData];
+        const updatedItem = {...checklistData[index]}
+        updatedItem.checked = !updatedItem.checked
+        updatdChecklist[index] = updatedItem;
+        onItemUpdate(updatdChecklist);
     }
 
     return (
@@ -64,7 +57,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                     <View style={styles.itemContainer} key={index}>
                         <Checkbox
                             status={itemData.checked ? 'checked' : 'unchecked'}
-                            onPress={() => console.log(!itemData.checked)}
+                            onPress={() => handleCheckboxChange(index)}
                         />
 
                         {activeItemIndex === index ?
@@ -81,7 +74,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                             </Pressable>
                         }
 
-                        {activeItemIndex !== index ?
+                        {/* {activeItemIndex !== index ?
                             <IconButton
                                 icon="chevron-up"
                                 mode='contained'
@@ -101,7 +94,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                             />
                             :
                             null
-                        }
+                        } */}
 
                         <IconButton
                             icon="trash-can"

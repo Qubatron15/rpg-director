@@ -134,7 +134,9 @@ const AddSceneForm: React.FC = () => {
       description: formValues.sceneDescription,
       soundtrack: formValues.sceneSoundtrack,
       image: formValues.image,
+      checklist: formValues.checklist
     };
+    console.log(formSceneData);
 
     try {
       let result;
@@ -145,14 +147,16 @@ const AddSceneForm: React.FC = () => {
           name: formSceneData.name,
           description: formSceneData.description,
           soundtrack: formSceneData.soundtrack,
-          image: formSceneData.image
+          image: formSceneData.image,
+          checklist: formSceneData.checklist
         })
       } else {
         result = await requestAddNewScene({
           name: formSceneData.name,
           description: formSceneData.description,
           soundtrack: formSceneData.soundtrack,
-          image: formSceneData.image
+          image: formSceneData.image,
+          checklist: formSceneData.checklist
         }).unwrap();
 
         // dispatch(addScene(result.data));
@@ -165,7 +169,8 @@ const AddSceneForm: React.FC = () => {
         sceneName: '',
         sceneDescription: '',
         sceneSoundtrack: '',
-        image: ''
+        image: '',
+        checklist: []
       });
       setFormDirty(false);
       navigation.goBack();
