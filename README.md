@@ -71,3 +71,5 @@ Join our community of developers creating universal apps.
 - copy scene
 - sort scenes alphabetically on init
 - bottom player disabled if n music playing
+- activate whole scene
+- edit scene from the scene preview

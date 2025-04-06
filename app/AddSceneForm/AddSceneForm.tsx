@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, StyleSheet, Alert, Image } from 'react-native';
+import { View, StyleSheet, Alert, Image, ScrollView } from 'react-native';
 import { Button, HelperText, TextInput, Text, IconButton, MD3Colors, Menu, Surface } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSceneById, SceneChecklistItemData, SceneData } from '../store/slices/scenesListSlice';
@@ -179,7 +179,7 @@ const AddSceneForm: React.FC = () => {
   }, [formValues, dispatch, navigation]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <LoaderIndicator />
 
       <Surface style={styles.banner} elevation={4}>
@@ -260,7 +260,7 @@ const AddSceneForm: React.FC = () => {
           {selectedSceneData ? 'Update' : 'Add'}
         </Button>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
