@@ -1,36 +1,33 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { SceneData } from "../store/slices/scenesListSlice";
 import { connect } from "react-redux";
 import { Chip, MD3Colors, Surface, Text } from "react-native-paper";
 import { StyleSheet, View, Image } from 'react-native';
 
 
-interface SceneTimeProps {
+interface SceneTileProps {
     sceneData: SceneData
 }
 
-// TODO - this component should contain tile with graphic for every scene
-class SceneTile extends Component<SceneTimeProps> {
-    render() {
-        const { name, id, image } = this.props.sceneData;
-
-        return (
-            <Surface style={styles.tile} elevation={4}>
-                <Image
-                    style={styles.sceneImage}
-                    source={{ uri: image }}></Image>
-                <Text
-                    style={styles.tileText}
-                    variant="headlineMedium"
-                    numberOfLines={1}>{name}</Text>
-            </Surface>
-        )
-    }
+const SceneTile: React.FC<SceneTileProps> = ({ sceneData }: SceneTileProps) => {
+    return (
+        <Surface
+            style={styles.tile}
+            elevation={4}>
+            <Image
+                style={styles.sceneImage}
+                source={{ uri: sceneData.image }}></Image>
+            <Text
+                style={styles.tileText}
+                variant="headlineMedium"
+                numberOfLines={1}>{sceneData.name}</Text>
+        </Surface>
+    )
 }
 
 const styles = StyleSheet.create({
     tile: {
-        width: '100%'
+        width: '100%',
     },
     sceneImage: {
         width: '100%',
@@ -46,4 +43,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect()(SceneTile)
+export default SceneTile;

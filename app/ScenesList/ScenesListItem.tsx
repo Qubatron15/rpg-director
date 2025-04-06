@@ -9,9 +9,10 @@ import { Pressable, View, StyleSheet } from "react-native";
 
 interface ScenesListItemProps {
     sceneData: SceneData,
+    viewMode: 'list' | 'tiles'
 }
 
-const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesListItemProps) => {
+const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData, viewMode }: ScenesListItemProps) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
@@ -46,8 +47,17 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
         }
     }, []);
 
+    // style={styles.tile}
+
     return (
-        <View style={styles.tile}>
+        <View
+            style={
+                {
+                    ...styles.tile,
+                    width: viewMode === 'list' ? '100%' : '48%',
+                }
+            }
+        >
             <Menu
                 visible={menuVisible}
                 onDismiss={handleCloseMenu}
@@ -70,7 +80,7 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData }: ScenesList
 
 const styles = StyleSheet.create({
     tile: {
-        width: '100%'
+        marginBottom: '4%'
     }
 });
 

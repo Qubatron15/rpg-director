@@ -41,7 +41,7 @@ const App: React.FC = () => {
                     ]}
                 />
             </View>
-            {selectedView === 'map' ? <ScenesMap /> : <ScenesList />}
+            {selectedView === 'map' ? <ScenesMap /> : <ScenesList viewMode={selectedView as any}/>}
             <FAB
                 style={styles.addButton}
                 icon="plus"
