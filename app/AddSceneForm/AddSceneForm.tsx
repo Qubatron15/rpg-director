@@ -247,7 +247,7 @@ const AddSceneForm: React.FC = () => {
         />
 
         <Text variant="headlineSmall">Scene checklist</Text>
-        <SceneChecklist checklistData={checklistItemsMock}></SceneChecklist>
+        <SceneChecklist checklistData={selectedSceneData?.checklist ?? []}></SceneChecklist>
 
         <Button
           icon="camera"
