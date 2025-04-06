@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
-import { Text } from "react-native-paper";
+import { View, StyleSheet, Image, ScrollView } from "react-native";
+import { MD3Colors, Surface, Text } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
@@ -27,11 +27,26 @@ const ViewScene: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <LoaderIndicator />
-      <View>
-        <Text variant="titleLarge">{selectedSceneData.name}</Text>
-        <Text variant="bodyMedium">{selectedSceneData.description}</Text>
-      </View>
+      <ScrollView>
+        <LoaderIndicator />
+
+        <Surface style={styles.banner} elevation={4}>
+          <Image
+            style={styles.sceneImage}
+            source={{ uri: selectedSceneData.image }}></Image>
+
+          <Text
+            style={styles.sceneTitle}
+            variant="headlineMedium"
+            numberOfLines={1}>
+            {selectedSceneData.name}
+          </Text>
+        </Surface>
+
+        <View style={styles.sceneDataContainer}>
+          <Text variant="bodyLarge">{selectedSceneData.description}</Text>
+        </View>
+      </ScrollView>
       <BottomPlayer />
     </View>
   );
@@ -40,6 +55,37 @@ const ViewScene: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
+  },
+  banner: {
+    width: '100%',
+    height: '20%',
+    minHeight: 190,
+
+    position: 'relative',
+
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between'
+  },
+  sceneImage: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+  },
+  sceneTitle: {
+    margin: 20,
+    color: MD3Colors.primary100,
+    backgroundColor: 'rgba(0, 0, 0, .6)',
+    padding: 10,
+    zIndex: 50,
+    maxWidth: '60%'
+  },
+  sceneDataContainer: {
+    padding: 20,
+    // height: '100%'
   }
 });
 
