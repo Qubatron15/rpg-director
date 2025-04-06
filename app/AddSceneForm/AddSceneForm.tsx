@@ -81,16 +81,17 @@ const AddSceneForm: React.FC = () => {
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images', 'livePhotos'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      allowsEditing: false,
+      // aspect: [4, 3],
+      quality: 0,
+      base64: true
     });
 
     if (result.canceled) return;
 
     setFormValues(prevState => ({
       ...prevState,
-      image: result.assets[0].uri, // TODO - this has to be transformed to base64 in android
+      image: `data:image/jpeg;base64,${result.assets[0].base64}` // result.assets[0].uri, // TODO - this has to be transformed to base64 in android
     }));
     setFormDirty(true);
   }, []);
@@ -99,15 +100,16 @@ const AddSceneForm: React.FC = () => {
     handleCloseMenu();
 
     const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 1,
-    });
+      allowsEditing: false,
+      quality: 0.1,
+      base64: true,
+    } as any);
 
     if (result.canceled) return;
 
     setFormValues(prevState => ({
       ...prevState,
-      image: result.assets[0].uri,  // TODO - this has to be transformed to base64 in android
+      image: `data:image/jpeg;base64,${result.assets[0].base64}` // ?? result.assets[0].uri,  // TODO - this has to be transformed to base64 in android
     }));
     setFormDirty(true);
   };
@@ -203,6 +205,7 @@ const AddSceneForm: React.FC = () => {
       </Surface>
 
       <View style={styles.form}>
+        <Text>{formValues.image}</Text>
         <TextInput
           label="Name"
           value={formValues.sceneName}
