@@ -174,7 +174,7 @@ const AddSceneForm: React.FC = () => {
           style={styles.sceneTitle}
           variant="headlineMedium"
           numberOfLines={2}>
-          {`${selectedSceneData ? 'Update' : 'Add'}:\n${formValues.sceneName || 'new scene'}`}
+          {`${selectedSceneData ? 'Editing' : 'Adding'}:\n"${formValues.sceneName || 'new scene'}"`}
         </Text>
         <Menu
 

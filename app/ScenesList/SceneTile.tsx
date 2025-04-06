@@ -24,8 +24,13 @@ const SceneTile: React.FC<SceneTileProps> = ({ sceneData, viewMode }: SceneTileP
                 style={styles.sceneImage}
                 source={{ uri: sceneData.image }}></Image>
             <Text
-                style={styles.tileText}
-                variant="headlineMedium"
+                style={
+                    {
+                        ...styles.tileText,
+                        padding: viewMode === 'list' ? 20 : 5
+                    }
+                }
+                variant={viewMode === 'list' ? 'headlineMedium' : 'headlineSmall'}
                 numberOfLines={1}>{sceneData.name}</Text>
         </Surface>
     )
@@ -46,7 +51,6 @@ const styles = StyleSheet.create({
         top: 0,
     },
     tileText: {
-        padding: 20,
         color: MD3Colors.primary100,
         backgroundColor: 'rgba(0, 0, 0, .6)',
         bottom: 0,

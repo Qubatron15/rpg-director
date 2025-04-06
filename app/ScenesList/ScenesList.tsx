@@ -15,9 +15,10 @@ const ScenesList: React.FC<ScenesListProps> = ({ viewMode }: ScenesListProps) =>
     <ScrollView style={styles.scrollView}>
       <View style={styles.scenesListContainer}>
         {
-          scenesList.map(scene => (
+          scenesList
+            .map(scene => (
               <ScenesListItem sceneData={scene} viewMode={viewMode} key={scene.id} />
-          ))
+            ))
         }
       </View>
     </ScrollView>
