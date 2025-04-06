@@ -7,12 +7,18 @@ import { StyleSheet, View, Image } from 'react-native';
 
 interface SceneTileProps {
     sceneData: SceneData
+    viewMode: 'list' | 'tiles'
 }
 
-const SceneTile: React.FC<SceneTileProps> = ({ sceneData }: SceneTileProps) => {
+const SceneTile: React.FC<SceneTileProps> = ({ sceneData, viewMode }: SceneTileProps) => {
     return (
         <Surface
-            style={styles.tile}
+            style={
+                {
+                    ...styles.tile,
+                    aspectRatio: viewMode === 'list' ? undefined : '1 / 1'
+                }
+            }
             elevation={4}>
             <Image
                 style={styles.sceneImage}
@@ -28,6 +34,9 @@ const SceneTile: React.FC<SceneTileProps> = ({ sceneData }: SceneTileProps) => {
 const styles = StyleSheet.create({
     tile: {
         width: '100%',
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'flex-end'
     },
     sceneImage: {
         width: '100%',
@@ -40,6 +49,7 @@ const styles = StyleSheet.create({
         padding: 20,
         color: MD3Colors.primary100,
         backgroundColor: 'rgba(0, 0, 0, .6)',
+        bottom: 0,
     }
 });
 

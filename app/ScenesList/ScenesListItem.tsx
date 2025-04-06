@@ -63,7 +63,7 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData, viewMode }: 
                 onDismiss={handleCloseMenu}
                 anchor={
                     <Pressable onPress={handleViewScene} onLongPress={handleOpenMenu}>
-                        <SceneTile sceneData={sceneData} />
+                        <SceneTile sceneData={sceneData} viewMode={viewMode} />
                     </Pressable>
                 }
             >
@@ -80,7 +80,8 @@ const ScenesListItem: React.FC<ScenesListItemProps> = ({ sceneData, viewMode }: 
 
 const styles = StyleSheet.create({
     tile: {
-        marginBottom: '4%'
+        marginBottom: '4%',
+        height: 'auto'
     }
 });
 
