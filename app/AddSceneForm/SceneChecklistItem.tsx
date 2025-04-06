@@ -7,6 +7,7 @@ interface SceneChecklistItemProps {
     itemData: SceneChecklistItemData;
 }
 
+// TODO component to remove
 const SceneChecklistItem: React.FC<SceneChecklistItemProps> = ({ itemData }: SceneChecklistItemProps) => {
     return (
         <View style={styles.itemContainer}>

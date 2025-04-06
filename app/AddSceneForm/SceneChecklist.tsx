@@ -1,14 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SceneChecklistItemData } from '../store/slices/scenesListSlice';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Touchable, Pressable } from 'react-native';
 import { Checkbox, IconButton, Text, TextInput } from 'react-native-paper';
 
 interface SceneChecklistProps {
-    checklistData: SceneChecklistItemData[]
+    checklistData: SceneChecklistItemData[];
+    onItemUpdate: (updatdChecklist: SceneChecklistItemData[]) => void
 }
 
-const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData }: SceneChecklistProps) => {
-    const [activeItem, setActiveItem] = useState<number | null>(null);
+const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUpdate }: SceneChecklistProps) => {
+    const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
+    const [activeItemData, setActiveItemData] = useState<SceneChecklistItemData>({ checked: false, name: '' });
+
+    useEffect(() => {
+        if (activeItemData.name && activeItemIndex !== null) {
+            const updatdChecklist = [...checklistData];
+            updatdChecklist[activeItemIndex] = activeItemData;
+            onItemUpdate(updatdChecklist);
+        }
+
+        if (activeItemIndex === null) {
+            setActiveItemData({ checked: false, name: '' });
+            return;
+        }
+
+        setActiveItemData({
+            checked: checklistData[activeItemIndex].checked,
+            name: checklistData[activeItemIndex].name
+        });
+    }, [activeItemIndex])
+
+    const submitItemChange = (newSelectedIndex: number) => {
+        if (activeItemData.name && activeItemIndex !== null) {
+            const updatdChecklist = [...checklistData];
+            updatdChecklist[activeItemIndex] = activeItemData;
+            onItemUpdate(updatdChecklist);
+        }
+
+        if (newSelectedIndex === null) {
+            setActiveItemData({ checked: false, name: '' });
+            return;
+        }
+
+        setActiveItemData({
+            checked: checklistData[newSelectedIndex].checked,
+            name: checklistData[newSelectedIndex].name
+        });
+
+        setActiveItemIndex(newSelectedIndex)
+    }
+
+    const handleNameChange = (newName: string) => {
+        if (!activeItemData) return;
+
+        activeItemData.name = newName;
+        setActiveItemData({ ...activeItemData });
+    }
 
     return (
         <View>
@@ -20,21 +67,21 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData }: SceneC
                             onPress={() => console.log(!itemData.checked)}
                         />
 
-                        {activeItem === index ?
+                        {activeItemIndex === index ?
                             <TextInput
                                 style={styles.itemName}
                                 label="Item name"
-                                value={itemData.name}
-                                onChangeText={text => console.log(text)}
+                                value={activeItemData.name}
+                                onChangeText={handleNameChange}
                                 mode="outlined"
                             />
                             :
-                            <Text
-                                variant="titleMedium"
-                                style={styles.itemName}>{itemData.name}</Text>
+                            <Pressable onPress={() => submitItemChange(index)} style={styles.itemName}>
+                                <Text variant="titleMedium">{itemData.name}</Text>
+                            </Pressable>
                         }
 
-                        {activeItem !== index ?
+                        {activeItemIndex !== index ?
                             <IconButton
                                 icon="chevron-up"
                                 mode='contained'
@@ -45,7 +92,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData }: SceneC
                             null
                         }
 
-                        {activeItem !== index ?
+                        {activeItemIndex !== index ?
                             <IconButton
                                 icon="chevron-down"
                                 mode='contained'
@@ -54,22 +101,6 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData }: SceneC
                             />
                             :
                             null
-                        }
-
-                        {activeItem === index ?
-                            <IconButton
-                                icon="content-save-outline"
-                                mode='contained'
-                                size={25}
-                                onPress={() => setActiveItem(index)}
-                            />
-                            :
-                            <IconButton
-                                icon="pencil"
-                                mode='contained'
-                                size={25}
-                                onPress={() => setActiveItem(index)}
-                            />
                         }
 
                         <IconButton

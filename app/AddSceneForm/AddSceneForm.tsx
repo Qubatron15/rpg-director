@@ -10,21 +10,6 @@ import LoaderIndicator from '../LoaderIndicator';
 import * as ImagePicker from 'expo-image-picker';
 import SceneChecklist from './SceneChecklist';
 
-const checklistItemsMock: SceneChecklistItemData[] = [
-  {
-    name: 'Axe',
-    checked: false
-  },
-  {
-    name: 'gun',
-    checked: false
-  },
-  {
-    name: 'wand',
-    checked: true
-  }
-]
-
 
 const AddSceneForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -42,6 +27,7 @@ const AddSceneForm: React.FC = () => {
     sceneDescription: '',
     sceneSoundtrack: '',
     image: '',
+    checklist: []
   });
   const [formDirty, setFormDirty] = useState(false);
   const [formValid, setFormValid] = useState(false);
@@ -57,7 +43,8 @@ const AddSceneForm: React.FC = () => {
       sceneName: selectedSceneData?.name ?? '',
       sceneDescription: selectedSceneData?.description ?? '',
       sceneSoundtrack: selectedSceneData?.soundtrack ?? '',
-      image: selectedSceneData?.image ?? ''
+      image: selectedSceneData?.image ?? '',
+      checklist: selectedSceneData?.checklist ?? [] as any, // TODO - sth wrong with the type here
     })
   }, [selectedSceneData])
 
@@ -92,6 +79,16 @@ const AddSceneForm: React.FC = () => {
     }));
     setFormDirty(true);
   }, []);
+
+  const handleChecklistItemChange = (updatdChecklist: SceneChecklistItemData[]) => {
+    if (!selectedSceneData?.checklist) return;
+
+    setFormValues(prevState => ({
+      ...prevState,
+      checklist: [...updatdChecklist] as any,
+    }));
+    setFormDirty(true);
+  }
 
   const handleAddImageFromGallery = useCallback(async () => {
     handleCloseMenu();
@@ -246,11 +243,14 @@ const AddSceneForm: React.FC = () => {
           mode="outlined"
         />
 
-        <Text variant="headlineSmall">Scene checklist</Text>
-        <SceneChecklist checklistData={selectedSceneData?.checklist ?? []}></SceneChecklist>
+        <Text variant="headlineSmall">Checklist</Text>
+        <SceneChecklist
+          onItemUpdate={handleChecklistItemChange}
+          checklistData={formValues?.checklist ?? []}>
+        </SceneChecklist>
 
         <Button
-          icon="camera"
+          icon="content-save"
           mode="contained"
           compact={true}
           style={styles.button}
