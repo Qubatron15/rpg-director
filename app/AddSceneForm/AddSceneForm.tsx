@@ -2,12 +2,29 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { View, StyleSheet, Alert, Image } from 'react-native';
 import { Button, HelperText, TextInput, Text, IconButton, MD3Colors, Menu, Surface } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSceneById, SceneData } from '../store/slices/scenesListSlice';
+import { getSceneById, SceneChecklistItemData, SceneData } from '../store/slices/scenesListSlice';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAddNewSceneMutation, useUpdateSceneMutation } from '../store/slices/apiSlice';
 import { RootState } from '../store/store';
 import LoaderIndicator from '../LoaderIndicator';
 import * as ImagePicker from 'expo-image-picker';
+import SceneChecklist from './SceneChecklist';
+
+const checklistItemsMock: SceneChecklistItemData[] = [
+  {
+    name: 'Axe',
+    checked: false
+  },
+  {
+    name: 'gun',
+    checked: false
+  },
+  {
+    name: 'wand',
+    checked: true
+  }
+]
+
 
 const AddSceneForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -213,6 +230,7 @@ const AddSceneForm: React.FC = () => {
         <HelperText type="error" visible={formDirty && !formValues.sceneName}>
           Scene name is required
         </HelperText>
+
         <TextInput
           label="Description"
           value={formValues.sceneDescription}
@@ -220,12 +238,17 @@ const AddSceneForm: React.FC = () => {
           mode="outlined"
           multiline={true}
         />
+
         <TextInput
           label="Soundtrack"
           value={formValues.sceneSoundtrack}
           onChangeText={text => handleTextChange('sceneSoundtrack', text)}
           mode="outlined"
         />
+
+        <Text variant="headlineSmall">Scene checklist</Text>
+        <SceneChecklist checklistData={checklistItemsMock}></SceneChecklist>
+
         <Button
           icon="camera"
           mode="contained"

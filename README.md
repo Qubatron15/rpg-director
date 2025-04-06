@@ -70,3 +70,4 @@ Join our community of developers creating universal apps.
 - adding m,usic files from phone local storage
 - copy scene
 - sort scenes alphabetically on init
+- bottom player disabled if n music playing

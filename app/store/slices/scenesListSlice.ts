@@ -5,7 +5,13 @@ export interface SceneData {
   name: string;
   description?: string;
   soundtrack?: string;
+  checklist?: SceneChecklistItemData[]
   image?: Base64URLString;
+}
+
+export interface SceneChecklistItemData {
+  name: string;
+  checked: boolean;
 }
 
 const initialState: SceneData[] = [];
