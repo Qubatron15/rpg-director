@@ -17,7 +17,6 @@ const App: React.FC = () => {
     const [selectedView, setSelectedView] = React.useState('list');
 
     useEffect(() => {
-        console.log('----', data?.data);
         dispatch(initScenesList(data?.data ?? []));
     }, [isLoading, data, error]);
 
