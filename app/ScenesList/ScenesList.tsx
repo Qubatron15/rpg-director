@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    padding: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   }
 });
 

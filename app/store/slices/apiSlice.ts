@@ -56,6 +56,7 @@ export const selectIsGlobalLoading = createSelector(
 
 export const {
     useGetAllScenesQuery,
+    useLazyGetAllScenesQuery,
     useAddNewSceneMutation,
     useDeleteSceneMutation,
     useUpdateSceneMutation
