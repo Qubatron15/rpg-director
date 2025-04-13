@@ -76,16 +76,14 @@ const styles = StyleSheet.create({
     top: 0,
   },
   sceneTitle: {
-    margin: 20,
     color: MD3Colors.primary100,
     backgroundColor: 'rgba(0, 0, 0, .6)',
-    padding: 10,
+    padding: 20,
+    width: '100%',
     zIndex: 50,
-    maxWidth: '60%'
   },
   sceneDataContainer: {
     padding: 20,
-    // height: '100%'
   }
 });
 

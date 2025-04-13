@@ -189,14 +189,7 @@ const AddSceneForm: React.FC = () => {
           style={styles.sceneImage}
           source={{ uri: formValues.image }}></Image>
 
-        <Text
-          style={styles.sceneTitle}
-          variant="headlineMedium"
-          numberOfLines={2}>
-          {`${selectedSceneData ? 'Editing' : 'Adding'}:\n"${formValues.sceneName || 'new scene'}"`}
-        </Text>
         <Menu
-
           visible={addImageMenuVisible}
           onDismiss={handleCloseMenu}
           anchor={
@@ -220,6 +213,14 @@ const AddSceneForm: React.FC = () => {
             leadingIcon="camera"
             title="From camera" />
         </Menu>
+
+
+        <Text
+          style={styles.sceneTitle}
+          variant="headlineMedium"
+          numberOfLines={2}>
+          {`${selectedSceneData ? 'Editing' : 'Adding'}:\n"${formValues.sceneName || 'new scene'}"`}
+        </Text>
       </Surface>
 
       <View style={styles.form}>
@@ -284,7 +285,7 @@ const styles = StyleSheet.create({
     position: 'relative',
 
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'space-between'
   },
@@ -299,12 +300,11 @@ const styles = StyleSheet.create({
     margin: 20
   },
   sceneTitle: {
-    margin: 20,
     color: MD3Colors.primary100,
     backgroundColor: 'rgba(0, 0, 0, .6)',
     padding: 10,
     zIndex: 50,
-    maxWidth: '60%'
+    width: '100%'
   },
   button: {
     margin: '10%',
