@@ -169,28 +169,28 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                 })}
             </View>
 
-            <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
-
             {/* ADD NEW ITEM INPUT */}
-            <View style={{
-                ...styles.editItemChip,
-                backgroundColor: activeItemIndex !== null ? MD3Colors.neutral90 : MD3Colors.primary80,
-            }}>
-                <TextInput
-                    disabled={activeItemIndex !== null}
-                    style={styles.editItemInput}
-                    label="Add new item"
-                    value={newItemData.name}
-                    onChangeText={(value) => setNewItemData({ ...newItemData, name: value })}
-                    mode="outlined"
-                />
-                <IconButton
-                    icon="plus"
-                    size={25}
-                    disabled={activeItemIndex !== null || !newItemData.name}
-                    onPress={handleAddNewItem}
-                />
-            </View>
+            {activeItemIndex === null ?
+                <View style={{
+                    ...styles.editItemChip,
+                    backgroundColor: MD3Colors.primary70,
+                    marginTop: 20
+                }}>
+                    <TextInput
+                        style={styles.editItemInput}
+                        label="Add new item"
+                        value={newItemData.name}
+                        onChangeText={(value) => setNewItemData({ ...newItemData, name: value })}
+                        mode="outlined"
+                    />
+                    <IconButton
+                        icon="plus"
+                        size={25}
+                        disabled={!newItemData.name}
+                        onPress={handleAddNewItem}
+                    />
+                </View>
+                : null}
         </View>
     )
 }

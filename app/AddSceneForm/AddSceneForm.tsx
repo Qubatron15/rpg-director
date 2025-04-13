@@ -244,20 +244,20 @@ const AddSceneForm: React.FC = () => {
 
         <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
 
+        <Text variant="headlineSmall">Items</Text>
+        <SceneChecklist
+          onItemUpdate={handleChecklistItemChange}
+          checklistData={formValues?.checklist ?? []}>
+        </SceneChecklist>
+
+        <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
+
         <TextInput
           label="Soundtrack"
           value={formValues.sceneSoundtrack}
           onChangeText={text => handleTextChange('sceneSoundtrack', text)}
           mode="outlined"
         />
-
-        <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
-
-        <Text variant="headlineSmall">Items</Text>
-        <SceneChecklist
-          onItemUpdate={handleChecklistItemChange}
-          checklistData={formValues?.checklist ?? []}>
-        </SceneChecklist>
 
         <Button
           icon="content-save"
