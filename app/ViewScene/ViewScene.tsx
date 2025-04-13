@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import { Chip, Divider, MD3Colors, Surface, Text } from "react-native-paper";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { Chip, Divider, FAB, MD3Colors, Surface, Text } from "react-native-paper";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { getSceneById, SceneChecklistItemData } from "../store/slices/scenesListSlice";
 import LoaderIndicator from "../LoaderIndicator";
 import BottomPlayer from "../audio-manager/BottomPlayer/BottomPlayer";
+import { useUpdateSceneMutation } from "../store/slices/apiSlice";
 
 const ViewScene: React.FC = () => {
   const navigation = useNavigation();
@@ -14,23 +15,54 @@ const ViewScene: React.FC = () => {
   const sceneId = (route.params as { sceneId: string }).sceneId;
   const selectedSceneData = useSelector((state: RootState) => getSceneById(state, sceneId));
   const [sceneChecklist, setSceneChecklist] = useState<SceneChecklistItemData[]>([])
+  const [checklistChanged, setChecklistChanged] = useState<boolean>(false);
+  const checklistChangedRef = useRef(checklistChanged);
+  const [requestUpdateScene, updateSceneQuery] = useUpdateSceneMutation();
+
 
   useEffect(() => {
     if (!selectedSceneData) {
       navigation.navigate("index"); // TODO - here we can consider fetching only one scene from DB if it's missing
     } else {
       navigation.setOptions({ title: selectedSceneData.name });
-      setSceneChecklist([...(selectedSceneData.checklist?.map(item => ({name: item.name, checked: item.checked})) ?? [])])
+      setSceneChecklist([...(selectedSceneData.checklist?.map(item => ({ name: item.name, checked: item.checked })) ?? [])])
     }
   }, [selectedSceneData, navigation]);
 
+  /**
+   * Update scene items list (if changed) when leaving the screen.
+   */
+  useFocusEffect(
+    useCallback(() => {
+      // Screen is focused
+      return () => {
+        // Screen is unfocused
+        if (!selectedSceneData || !checklistChanged) return;
+
+        try {
+          requestUpdateScene({
+            ...selectedSceneData,
+            checklist: sceneChecklist
+          });
+        } catch (error) {
+          console.error("Failed to update scene checklist:", error);
+        }
+      };
+    }, [checklistChanged])
+  );
+
   const handleItemSelectionChange = (index: number) => {
+    setChecklistChanged(true);
     const updatdChecklist = [...sceneChecklist];
     updatdChecklist[index].checked = !sceneChecklist[index].checked
     setSceneChecklist(updatdChecklist);
-}
+  }
 
-if (!selectedSceneData) return null;
+  const handleEditScene = () => {
+    navigation.navigate('AddSceneForm/AddSceneForm', { sceneId: selectedSceneData.id });
+  }
+
+  if (!selectedSceneData) return null;
 
   return (
     <View style={styles.container}>
@@ -53,9 +85,9 @@ if (!selectedSceneData) return null;
         <View style={styles.sceneDataContainer}>
           <Text variant="bodyLarge">{selectedSceneData.description}</Text>
 
-          <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
+          <Divider style={{ marginTop: 15, marginBottom: 15 }} />
 
-          <Text variant="headlineSmall">Checklist</Text>
+          {sceneChecklist.length ? <Text variant="headlineSmall">Checklist</Text> : null}
           <View style={styles.chipsContainer}>
             {sceneChecklist.map((itemData: SceneChecklistItemData, index: number) => {
               return (
@@ -73,6 +105,11 @@ if (!selectedSceneData) return null;
           </View>
         </View>
       </ScrollView>
+      <FAB
+        style={styles.editSceneButton}
+        icon="pencil"
+        onPress={handleEditScene}
+      />
       <BottomPlayer />
     </View>
   );
@@ -108,6 +145,9 @@ const styles = StyleSheet.create({
     width: '100%',
     zIndex: 50,
   },
+  sceneDataContainer: {
+    padding: 20,
+  },
   chipsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -118,9 +158,11 @@ const styles = StyleSheet.create({
   itemChip: {
     maxWidth: '100%'
   },
-  sceneDataContainer: {
-    padding: 20,
-  }
+  editSceneButton: {
+    position: 'absolute',
+    bottom: 100,
+    right: 20,
+  },
 });
 
 export default ViewScene;

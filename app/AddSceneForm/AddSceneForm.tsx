@@ -176,7 +176,7 @@ const AddSceneForm: React.FC = () => {
       navigation.goBack();
 
     } catch (error) {
-      console.error("Failed to add scene:", error);
+      console.error("Failed to add/update scene:", error);
     }
   }, [formValues, dispatch, navigation]);
 
