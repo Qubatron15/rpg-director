@@ -90,10 +90,10 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
             <View style={styles.chipsContainer}>
                 {checklistData.map((itemData: SceneChecklistItemData, index: number) => {
                     if (activeItemIndex === index) return (
-                        <View style={styles.editItemChip}>
+                        <View style={styles.editItemChip} key={index}>
                             <TextInput
                                 style={styles.editItemInput}
-                                label="Item name"
+                                label="Update item name"
                                 value={activeItemData.name}
                                 onChangeText={handleNameChange}
                                 mode="outlined"
@@ -125,8 +125,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
             {activeItemIndex === null ?
                 <View style={{
                     ...styles.editItemChip,
-                    backgroundColor: MD3Colors.primary70,
-                    marginTop: 10
+                    backgroundColor: MD3Colors.primary90
                 }}>
                     <TextInput
                         style={styles.editItemInput}
