@@ -57,7 +57,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
         setActiveItemData({ ...activeItemData });
     }, []);
 
-    const handleCheckboxChange = (index: number) => {
+    const handleItemSelectionChange = (index: number) => {
         setFormDirty(true);
 
         const updatdChecklist = [...checklistData];
@@ -84,7 +84,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
 
     return (
         <View>
-            <Text variant="headlineSmall">Items</Text>
+            <Text variant="headlineSmall">Checklist</Text>
 
             {/* EXISTING ITEMS LIST */}
             <View style={styles.chipsContainer}>
@@ -113,7 +113,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                             showSelectedOverlay={true}
                             showSelectedCheck={true}
                             onLongPress={() => submitItemChange(index)}
-                            onPress={() => handleCheckboxChange(index)}
+                            onPress={() => handleItemSelectionChange(index)}
                             onClose={() => handleDeleteItem(index)}>
                             {itemData.name}
                         </Chip>

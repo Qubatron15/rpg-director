@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import { Chip, MD3Colors, Surface, Text } from "react-native-paper";
+import { Chip, Divider, MD3Colors, Surface, Text } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
@@ -12,18 +12,25 @@ const ViewScene: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const sceneId = (route.params as { sceneId: string }).sceneId;
-
   const selectedSceneData = useSelector((state: RootState) => getSceneById(state, sceneId));
+  const [sceneChecklist, setSceneChecklist] = useState<SceneChecklistItemData[]>([])
 
   useEffect(() => {
     if (!selectedSceneData) {
       navigation.navigate("index"); // TODO - here we can consider fetching only one scene from DB if it's missing
     } else {
       navigation.setOptions({ title: selectedSceneData.name });
+      setSceneChecklist([...(selectedSceneData.checklist?.map(item => ({name: item.name, checked: item.checked})) ?? [])])
     }
   }, [selectedSceneData, navigation]);
 
-  if (!selectedSceneData) return null;
+  const handleItemSelectionChange = (index: number) => {
+    const updatdChecklist = [...sceneChecklist];
+    updatdChecklist[index].checked = !sceneChecklist[index].checked
+    setSceneChecklist(updatdChecklist);
+}
+
+if (!selectedSceneData) return null;
 
   return (
     <View style={styles.container}>
@@ -46,8 +53,11 @@ const ViewScene: React.FC = () => {
         <View style={styles.sceneDataContainer}>
           <Text variant="bodyLarge">{selectedSceneData.description}</Text>
 
+          <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
+
+          <Text variant="headlineSmall">Checklist</Text>
           <View style={styles.chipsContainer}>
-            {selectedSceneData.checklist?.map((itemData: SceneChecklistItemData, index: number) => {
+            {sceneChecklist.map((itemData: SceneChecklistItemData, index: number) => {
               return (
                 <Chip
                   key={index}
@@ -55,7 +65,7 @@ const ViewScene: React.FC = () => {
                   selected={itemData.checked}
                   showSelectedOverlay={true}
                   showSelectedCheck={true}
-                  onPress={() => console.log('haha')}>
+                  onPress={() => handleItemSelectionChange(index)}>
                   {itemData.name}
                 </Chip>
               )
