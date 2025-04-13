@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import { MD3Colors, Surface, Text } from "react-native-paper";
+import { Chip, MD3Colors, Surface, Text } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { getSceneById } from "../store/slices/scenesListSlice";
+import { getSceneById, SceneChecklistItemData } from "../store/slices/scenesListSlice";
 import LoaderIndicator from "../LoaderIndicator";
 import BottomPlayer from "../audio-manager/BottomPlayer/BottomPlayer";
 
@@ -45,6 +45,22 @@ const ViewScene: React.FC = () => {
 
         <View style={styles.sceneDataContainer}>
           <Text variant="bodyLarge">{selectedSceneData.description}</Text>
+
+          <View style={styles.chipsContainer}>
+            {selectedSceneData.checklist?.map((itemData: SceneChecklistItemData, index: number) => {
+              return (
+                <Chip
+                  key={index}
+                  style={styles.itemChip}
+                  selected={itemData.checked}
+                  showSelectedOverlay={true}
+                  showSelectedCheck={true}
+                  onPress={() => console.log('haha')}>
+                  {itemData.name}
+                </Chip>
+              )
+            })}
+          </View>
         </View>
       </ScrollView>
       <BottomPlayer />
@@ -81,6 +97,16 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '100%',
     zIndex: 50,
+  },
+  chipsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 15,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  itemChip: {
+    maxWidth: '100%'
   },
   sceneDataContainer: {
     padding: 20,

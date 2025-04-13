@@ -244,7 +244,6 @@ const AddSceneForm: React.FC = () => {
 
         <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
 
-        <Text variant="headlineSmall">Items</Text>
         <SceneChecklist
           onItemUpdate={handleChecklistItemChange}
           checklistData={formValues?.checklist ?? []}>

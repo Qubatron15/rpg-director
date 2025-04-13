@@ -84,6 +84,8 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
 
     return (
         <View>
+            <Text variant="headlineSmall">Items</Text>
+
             {/* EXISTING ITEMS LIST */}
             <View style={styles.chipsContainer}>
                 {checklistData.map((itemData: SceneChecklistItemData, index: number) => {
@@ -115,56 +117,6 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                             onClose={() => handleDeleteItem(index)}>
                             {itemData.name}
                         </Chip>
-
-                        // <Surface elevation={1} style={styles.itemContainer} key={index}>
-                        //     <Checkbox
-                        //         status={itemData.checked ? 'checked' : 'unchecked'}
-                        //         onPress={() => handleCheckboxChange(index)}
-                        //     />
-
-                        //     {activeItemIndex === index ?
-                        //         <TextInput
-                        //             style={styles.itemName}
-                        //             label="Item name"
-                        //             value={activeItemData.name}
-                        //             onChangeText={handleNameChange}
-                        //             mode="outlined"
-                        //         />
-                        //         :
-                        //         <Pressable onPress={() => submitItemChange(index)} style={styles.itemName}>
-                        //             <Text variant="titleMedium">{itemData.name}</Text>
-                        //         </Pressable>
-                        //     }
-
-                        //     {/* {activeItemIndex !== index ?
-                        //         <IconButton
-                        //             icon="chevron-up"
-                        //             mode='contained'
-                        //             size={25}
-                        //             onPress={() => console.log('pressed')}
-                        //         />
-                        //         :
-                        //         null
-                        //     }
-
-                        //     {activeItemIndex !== index ?
-                        //         <IconButton
-                        //             icon="chevron-down"
-                        //             mode='contained'
-                        //             size={25}
-                        //             onPress={() => console.log('pressed')}
-                        //         />
-                        //         :
-                        //         null
-                        //     } */}
-
-                        //     <IconButton
-                        //         icon="trash-can"
-                        //         mode='contained'
-                        //         size={25}
-                        //         onPress={() => handleDeleteItem(index)}
-                        //     />
-                        // </Surface>
                     )
                 })}
             </View>
@@ -174,7 +126,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                 <View style={{
                     ...styles.editItemChip,
                     backgroundColor: MD3Colors.primary70,
-                    marginTop: 20
+                    marginTop: 10
                 }}>
                     <TextInput
                         style={styles.editItemInput}
