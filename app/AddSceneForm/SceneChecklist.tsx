@@ -169,26 +169,25 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                 })}
             </View>
 
-            {/* ADD NEW ITEM INPUT */}
-            <View style={styles.newItemContainer}>
-                <Checkbox
-                    status={newItemData.checked ? 'checked' : 'unchecked'}
-                    onPress={() => setNewItemData({ ...newItemData, checked: !newItemData.checked })}
-                />
+            <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
 
+            {/* ADD NEW ITEM INPUT */}
+            <View style={{
+                ...styles.editItemChip,
+                backgroundColor: activeItemIndex !== null ? MD3Colors.neutral90 : MD3Colors.primary80,
+            }}>
                 <TextInput
-                    style={styles.newItemInput}
+                    disabled={activeItemIndex !== null}
+                    style={styles.editItemInput}
                     label="Add new item"
                     value={newItemData.name}
                     onChangeText={(value) => setNewItemData({ ...newItemData, name: value })}
                     mode="outlined"
                 />
-
                 <IconButton
                     icon="plus"
-                    mode='contained'
                     size={25}
-                    disabled={!newItemData.name}
+                    disabled={activeItemIndex !== null || !newItemData.name}
                     onPress={handleAddNewItem}
                 />
             </View>
@@ -200,11 +199,11 @@ const styles = StyleSheet.create({
     chipsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
+        gap: 15,
         marginTop: 10,
         marginBottom: 10
     },
     itemChip: {
-        margin: 7,
         maxWidth: '100%'
     },
     editItemChip: {
@@ -218,18 +217,6 @@ const styles = StyleSheet.create({
     },
     editItemInput: {
         flexGrow: 1
-    },
-    newItemContainer: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        // marginTop: 10,
-    },
-    newItemInput: {
-        flexGrow: 1,
-        marginBottom: 8
     }
 });
 
