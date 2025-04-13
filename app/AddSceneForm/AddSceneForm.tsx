@@ -81,8 +81,6 @@ const AddSceneForm: React.FC = () => {
   }, []);
 
   const handleChecklistItemChange = (updatdChecklist: SceneChecklistItemData[]) => {
-    if (!selectedSceneData?.checklist) return;
-
     setFormValues(prevState => ({
       ...prevState,
       checklist: [...updatdChecklist] as any,

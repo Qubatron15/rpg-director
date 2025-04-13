@@ -85,7 +85,7 @@ const ViewScene: React.FC = () => {
         <View style={styles.sceneDataContainer}>
           <Text variant="bodyLarge">{selectedSceneData.description}</Text>
 
-          {sceneChecklist.length ? <Divider style={{ marginTop: 15, marginBottom: 15 }} /> : null}
+          {sceneChecklist.length && selectedSceneData.description ? <Divider style={{ marginTop: 15, marginBottom: 15 }} /> : null}
 
           {sceneChecklist.length ? <Text variant="headlineSmall">Checklist</Text> : null}
           <View style={styles.chipsContainer}>

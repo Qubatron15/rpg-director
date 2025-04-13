@@ -77,7 +77,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
     const handleAddNewItem = () => {
         const updatdChecklist = [...checklistData];
         updatdChecklist.push(newItemData);
-        setNewItemData({ name: '', checked: false })
+        setNewItemData({ name: '', checked: false });
         onItemUpdate(updatdChecklist);
         setFormDirty(true);
     }
