@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SceneChecklistItemData } from '../store/slices/scenesListSlice';
 import { View, StyleSheet, Touchable, Pressable } from 'react-native';
-import { Checkbox, Divider, IconButton, Surface, Text, TextInput } from 'react-native-paper';
+import { Checkbox, Chip, Divider, IconButton, Surface, Text, TextInput } from 'react-native-paper';
 
 interface SceneChecklistProps {
     checklistData: SceneChecklistItemData[];
@@ -61,7 +61,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
     const handleAddNewItem = () => {
         const updatdChecklist = [...checklistData];
         updatdChecklist.push(newItemData);
-        setNewItemData({name: '', checked: false})
+        setNewItemData({ name: '', checked: false })
         onItemUpdate(updatdChecklist);
         setFormDirty(true);
     }
@@ -69,59 +69,70 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
     return (
         <View>
             {/* EXISTING ITEMS LIST */}
-            {checklistData.map((itemData: SceneChecklistItemData, index: number) => {
-                return (
-                    <Surface elevation={1} style={styles.itemContainer} key={index}>
-                        <Checkbox
-                            status={itemData.checked ? 'checked' : 'unchecked'}
+            <View style={styles.chipsContainer}>
+                {checklistData.map((itemData: SceneChecklistItemData, index: number) => {
+                    return (
+                        <Chip
+                            key={index}
+                            style={styles.itemChip}
+                            selected={itemData.checked}
+                            showSelectedOverlay={true}
+                            showSelectedCheck={true}
                             onPress={() => handleCheckboxChange(index)}
-                        />
+                            onClose={() => handleDeleteItem(index)}>{itemData.name}</Chip>
 
-                        {activeItemIndex === index ?
-                            <TextInput
-                                style={styles.itemName}
-                                label="Item name"
-                                value={activeItemData.name}
-                                onChangeText={handleNameChange}
-                                mode="outlined"
-                            />
-                            :
-                            <Pressable onPress={() => submitItemChange(index)} style={styles.itemName}>
-                                <Text variant="titleMedium">{itemData.name}</Text>
-                            </Pressable>
-                        }
+                        // <Surface elevation={1} style={styles.itemContainer} key={index}>
+                        //     <Checkbox
+                        //         status={itemData.checked ? 'checked' : 'unchecked'}
+                        //         onPress={() => handleCheckboxChange(index)}
+                        //     />
 
-                        {/* {activeItemIndex !== index ?
-                            <IconButton
-                                icon="chevron-up"
-                                mode='contained'
-                                size={25}
-                                onPress={() => console.log('pressed')}
-                            />
-                            :
-                            null
-                        }
+                        //     {activeItemIndex === index ?
+                        //         <TextInput
+                        //             style={styles.itemName}
+                        //             label="Item name"
+                        //             value={activeItemData.name}
+                        //             onChangeText={handleNameChange}
+                        //             mode="outlined"
+                        //         />
+                        //         :
+                        //         <Pressable onPress={() => submitItemChange(index)} style={styles.itemName}>
+                        //             <Text variant="titleMedium">{itemData.name}</Text>
+                        //         </Pressable>
+                        //     }
 
-                        {activeItemIndex !== index ?
-                            <IconButton
-                                icon="chevron-down"
-                                mode='contained'
-                                size={25}
-                                onPress={() => console.log('pressed')}
-                            />
-                            :
-                            null
-                        } */}
+                        //     {/* {activeItemIndex !== index ?
+                        //         <IconButton
+                        //             icon="chevron-up"
+                        //             mode='contained'
+                        //             size={25}
+                        //             onPress={() => console.log('pressed')}
+                        //         />
+                        //         :
+                        //         null
+                        //     }
 
-                        <IconButton
-                            icon="trash-can"
-                            mode='contained'
-                            size={25}
-                            onPress={() => handleDeleteItem(index)}
-                        />
-                    </Surface>
-                )
-            })}
+                        //     {activeItemIndex !== index ?
+                        //         <IconButton
+                        //             icon="chevron-down"
+                        //             mode='contained'
+                        //             size={25}
+                        //             onPress={() => console.log('pressed')}
+                        //         />
+                        //         :
+                        //         null
+                        //     } */}
+
+                        //     <IconButton
+                        //         icon="trash-can"
+                        //         mode='contained'
+                        //         size={25}
+                        //         onPress={() => handleDeleteItem(index)}
+                        //     />
+                        // </Surface>
+                    )
+                })}
+            </View>
 
             {/* ADD NEW ITEM INPUT */}
             <View style={styles.itemContainer}>
@@ -151,14 +162,23 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
 }
 
 const styles = StyleSheet.create({
+    chipsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 10,
+        marginBottom: 10
+    },
+    itemChip: {
+        margin: 7,
+        maxWidth: '100%'
+    },
     itemContainer: {
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 10,
-        // paddingBottom: 8
+        // marginTop: 10,
     },
     itemName: {
         flexGrow: 1,
