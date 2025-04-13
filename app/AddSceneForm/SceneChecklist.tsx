@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SceneChecklistItemData } from '../store/slices/scenesListSlice';
 import { View, StyleSheet, Touchable, Pressable } from 'react-native';
 import { Checkbox, IconButton, Text, TextInput } from 'react-native-paper';
@@ -12,6 +12,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
     const [formDirty, setFormDirty] = useState<boolean>(false);
     const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
     const [activeItemData, setActiveItemData] = useState<SceneChecklistItemData>({ checked: false, name: '' });
+    const [newItemData, setNewItemData] = useState<SceneChecklistItemData>({ checked: false, name: 'new item' });
 
     const submitItemChange = (newSelectedIndex: number) => {
         if (formDirty) {
@@ -33,25 +34,33 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
         setActiveItemIndex(newSelectedIndex)
     }
 
-    const handleNameChange = (newName: string) => {
+    const handleNameChange = useCallback((newName: string) => {
         setFormDirty(true);
 
         activeItemData.name = newName;
         setActiveItemData({ ...activeItemData });
-    }
+    }, []);
 
     const handleCheckboxChange = (index: number) => {
         setFormDirty(true);
 
         const updatdChecklist = [...checklistData];
-        const updatedItem = {...checklistData[index]}
+        const updatedItem = { ...checklistData[index] }
         updatedItem.checked = !updatedItem.checked
         updatdChecklist[index] = updatedItem;
         onItemUpdate(updatdChecklist);
     }
 
+    const handleAddNewScene = () => {
+        const updatdChecklist = [...checklistData];
+        updatdChecklist.push(newItemData);
+        setNewItemData({name: 'new item', checked: false})
+        onItemUpdate(updatdChecklist);
+    }
+
     return (
         <View>
+            {/* EXISTING ITEMS LIST */}
             {checklistData.map((itemData: SceneChecklistItemData, index: number) => {
                 return (
                     <View style={styles.itemContainer} key={index}>
@@ -105,6 +114,29 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                     </View>
                 )
             })}
+
+            {/* ADD NEW ITEM INPUT */}
+            <View style={styles.itemContainer}>
+                <Checkbox
+                    status={newItemData.checked ? 'checked' : 'unchecked'}
+                    onPress={() => setNewItemData({ ...newItemData, checked: !newItemData.checked })}
+                />
+
+                <TextInput
+                    style={styles.itemName}
+                    label="Item name"
+                    value={newItemData.name}
+                    onChangeText={(value) => setNewItemData({ ...newItemData, name: value })}
+                    mode="outlined"
+                />
+
+                <IconButton
+                    icon="plus"
+                    mode='contained'
+                    size={25}
+                    onPress={handleAddNewScene}
+                />
+            </View>
         </View>
     )
 }
