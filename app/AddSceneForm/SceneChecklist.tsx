@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SceneChecklistItemData } from '../store/slices/scenesListSlice';
 import { View, StyleSheet, Touchable, Pressable } from 'react-native';
-import { Checkbox, IconButton, Text, TextInput } from 'react-native-paper';
+import { Checkbox, Divider, IconButton, Surface, Text, TextInput } from 'react-native-paper';
 
 interface SceneChecklistProps {
     checklistData: SceneChecklistItemData[];
@@ -12,7 +12,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
     const [formDirty, setFormDirty] = useState<boolean>(false);
     const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
     const [activeItemData, setActiveItemData] = useState<SceneChecklistItemData>({ checked: false, name: '' });
-    const [newItemData, setNewItemData] = useState<SceneChecklistItemData>({ checked: false, name: 'new item' });
+    const [newItemData, setNewItemData] = useState<SceneChecklistItemData>({ checked: false, name: '' });
 
     const submitItemChange = (newSelectedIndex: number) => {
         if (formDirty) {
@@ -51,11 +51,19 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
         onItemUpdate(updatdChecklist);
     }
 
-    const handleAddNewScene = () => {
+    const handleDeleteItem = (index: number) => {
+        const updatdChecklist = [...checklistData];
+        updatdChecklist.splice(index, 1);
+        onItemUpdate(updatdChecklist);
+        setFormDirty(true);
+    }
+
+    const handleAddNewItem = () => {
         const updatdChecklist = [...checklistData];
         updatdChecklist.push(newItemData);
-        setNewItemData({name: 'new item', checked: false})
+        setNewItemData({name: '', checked: false})
         onItemUpdate(updatdChecklist);
+        setFormDirty(true);
     }
 
     return (
@@ -63,7 +71,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
             {/* EXISTING ITEMS LIST */}
             {checklistData.map((itemData: SceneChecklistItemData, index: number) => {
                 return (
-                    <View style={styles.itemContainer} key={index}>
+                    <Surface elevation={1} style={styles.itemContainer} key={index}>
                         <Checkbox
                             status={itemData.checked ? 'checked' : 'unchecked'}
                             onPress={() => handleCheckboxChange(index)}
@@ -109,9 +117,9 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                             icon="trash-can"
                             mode='contained'
                             size={25}
-                            onPress={() => console.log('pressed')}
+                            onPress={() => handleDeleteItem(index)}
                         />
-                    </View>
+                    </Surface>
                 )
             })}
 
@@ -124,7 +132,7 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
 
                 <TextInput
                     style={styles.itemName}
-                    label="Item name"
+                    label="Add new item"
                     value={newItemData.name}
                     onChangeText={(value) => setNewItemData({ ...newItemData, name: value })}
                     mode="outlined"
@@ -134,7 +142,8 @@ const SceneChecklist: React.FC<SceneChecklistProps> = ({ checklistData, onItemUp
                     icon="plus"
                     mode='contained'
                     size={25}
-                    onPress={handleAddNewScene}
+                    disabled={!newItemData.name}
+                    onPress={handleAddNewItem}
                 />
             </View>
         </View>
@@ -148,10 +157,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop: 10,
+        // paddingBottom: 8
     },
     itemName: {
         flexGrow: 1,
         flexShrink: 1,
+        marginBottom: 8
     }
 });
 

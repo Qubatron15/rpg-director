@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, StyleSheet, Alert, Image, ScrollView } from 'react-native';
-import { Button, HelperText, TextInput, Text, IconButton, MD3Colors, Menu, Surface } from 'react-native-paper';
+import { Button, HelperText, TextInput, Text, IconButton, MD3Colors, Menu, Surface, Divider } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSceneById, SceneChecklistItemData, SceneData } from '../store/slices/scenesListSlice';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -242,12 +242,16 @@ const AddSceneForm: React.FC = () => {
           multiline={true}
         />
 
+        <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
+
         <TextInput
           label="Soundtrack"
           value={formValues.sceneSoundtrack}
           onChangeText={text => handleTextChange('sceneSoundtrack', text)}
           mode="outlined"
         />
+
+        <Divider style={{ marginTop: 15, marginBottom: 15 }}/>
 
         <Text variant="headlineSmall">Checklist</Text>
         <SceneChecklist
